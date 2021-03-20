@@ -1,5 +1,8 @@
 #include <fstream>
 #include <iostream>
+#include <cerrno>
+#include <cstring>
+using namespace std;
 
 int main() {
   ofstream outf;
@@ -8,9 +11,21 @@ int main() {
   char name[30];
   cin >> name;
 
-  outf.open("/dev/ttyUSB0", ios::binary | ios::nocreate | ios::out);
 
-  if (!outf) cout << "Open failed\n";
+  // Abort if file doesn't exist
+  errno = 0;
+  ifstream f("/dev/ttyUSB0");
+  if (!f.is_open()) {
+    cerr << "Error : /dev/ttyUSB0: " << strerror(errno) << endl;
+    return EXIT_FAILURE;
+  }
+
+  errno = 0;
+  outf.open("/dev/ttyUSB0", ios::binary | ios::out);
+  if (!outf.is_open()) {
+    cerr << "Error : /dev/ttyUSB0: " << strerror(errno) << endl;
+    return EXIT_FAILURE;
+  }
 
   outf << name << "\n";
 
