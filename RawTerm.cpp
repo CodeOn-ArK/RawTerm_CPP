@@ -1,25 +1,26 @@
+#include <cstdlib>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 
+using namespace std;
+
+#include "menu.class"
+#include "menu_call.h"
+
+void term();
+void menu_call(void);
+
 int main() {
-  ofstream outf;
-
-  cout << "Enter Item Details\n";
-  char name[30];
-  cin >> name;
-
-  outf.open("/dev/ttyUSB0", ios::binary | ios::nocreate | ios::out);
-
-  if (!outf) cout << "Open failed\n";
-
-  outf << name << "\n";
-
-  cout << "Enter Item cost\n ";
-  float cost;
-  cin >> cost;
-
-  outf << cost << endl;
-  outf.close();
-
+  system("clear");
+  term();
   return 0;
+}
+
+void term() {
+  device dev;
+  dev.switch_dev(1);
+
+  ip_file ip;
+  ip.file_input();
 }
