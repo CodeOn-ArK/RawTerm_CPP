@@ -18,7 +18,6 @@ void display_menu()
 
 /*********************-END-************************/
 
-#if 0
 /********************-CLASS-**********************/
 
 class colour : public menu
@@ -28,13 +27,24 @@ private:
 protected:
 
 public:
+void change_clor_scheme(int i)
+{
+    switch(i)
+    {
+        case 0 : 
+        #undef  PINK  
+        #define BLUE 1
 
+        case 1  :
+        #undef BLUE
+        #define PINK 1
+    }
+}
 };
 /******************-FUNCTIONS-*********************/
 
 /*********************-END-************************/
 
-#endif
 
 void menu_call(void);
 /********************-CLASS-**********************/
