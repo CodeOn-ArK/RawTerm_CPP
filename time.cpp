@@ -25,5 +25,5 @@ void print_time(void) {
     /* Now print the local time and append the number of milliseconds after a decimal point to make it look like it's
      * the decimal part of the seconds field even though it's not.
      */
-    cout << put_time(localtime(&time_now), "%T.") << millisecs.count();
+    cout << put_time(localtime(&time_now), "%T.") << setfill('0') << setw(3) << millisecs.count();
 }
