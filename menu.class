@@ -120,7 +120,7 @@ void ip_file::file_input()
     cin.getline(str, 30, '\n');
 
     print_time();
-    cout << "affected";
+    cout << " affected";
     if (strcmp(str, "__MENU"))
       write(str);
     else
