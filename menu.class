@@ -1,3 +1,4 @@
+#include "time.cpp"
 /********************-CLASS-**********************/
 
 class menu {
@@ -94,7 +95,8 @@ void ip_file::file_input() {
   while (1) {
     cin.getline(str, 30, '\n');
 
-    cout << "affected";
+    print_time();
+    cout << " affected";
     if (strcmp(str, "__MENU"))
       write(str);
     else
