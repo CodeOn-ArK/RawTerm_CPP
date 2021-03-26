@@ -1,18 +1,10 @@
 /********************-CLASS-**********************/
 
-class menu
-{
-private:
-
-protected:
-
-public:
-
-void display_menu() 
-{
-
-}
-
+class menu {
+ private:
+ protected:
+ public:
+  void display_menu() {}
 };
 /******************-FUNCTIONS-*********************/
 
@@ -20,81 +12,65 @@ void display_menu()
 
 /********************-CLASS-**********************/
 
-class colour : public menu
-{
-private:
+class colour : public menu {
+ private:
+ protected:
+ public:
+  void change_clor_scheme(int i) {
+    switch (i) {
+      case 0:
+#undef PINK
+#define BLUE 1
 
-protected:
-
-public:
-void change_clor_scheme(int i)
-{
-    switch(i)
-    {
-        case 0 : 
-        #undef  PINK  
-        #define BLUE 1
-
-        case 1  :
-        #undef BLUE
-        #define PINK 1
+      case 1:
+#undef BLUE
+#define PINK 1
     }
-}
+  }
 };
 /******************-FUNCTIONS-*********************/
 
 /*********************-END-************************/
-
 
 void menu_call(void);
 /********************-CLASS-**********************/
 
-class device : public menu
-{
-private:
-ofstream outf;
+class device : public menu {
+ private:
+  ofstream outf;
 
-protected:
+ protected:
+ public:
+  /*
+  switch_dev need to be called from the menu upon any given choice  ****TODO****
+  */
+  void switch_dev(int i) {
+    switch (i) {
+      case 0:
+        if (outf) outf.close();
+        outf.open("/dev/ttyUSB0", ios::binary | ios::out);
 
-public:
+      case 1:
+        if (outf) outf.close();
+        outf.open("/dev/ttyUSB1", ios::binary | ios::out);
 
-/*
-switch_dev need to be called from the menu upon any given choice  ****TODO****
-*/
-void switch_dev(int i)
-{
-    switch(i)
-    {
-        case 0 :
-            if(outf)outf.close();
-            outf.open("/dev/ttyUSB0", ios::binary | ios::out);
-                
-        case 1 :
-            if(outf)outf.close();
-            outf.open("/dev/ttyUSB1", ios::binary | ios::out);
+      case 2:
+        if (outf) outf.close();
+        outf.open("/dev/ttyACM0", ios::binary | ios::out);
 
-        case 2 :
-            if(outf)outf.close();
-            outf.open("/dev/ttyACM0", ios::binary | ios::out);
-
-        case 3 :
-            if(outf)outf.close();
-            outf.open("/dev/ttyACM1", ios::binary | ios::out);
+      case 3:
+        if (outf) outf.close();
+        outf.open("/dev/ttyACM1", ios::binary | ios::out);
     }
-}
+  }
 
-//TO be called from menu_call           ****TODO*****
-void display_menu()
-{
-    cout << "device called display_menu";
-}
+  // TO be called from menu_call           ****TODO*****
+  void display_menu() { cout << "device called display_menu"; }
 
-void write(char *str)
-{
+  void write(char *str) {
     outf << str << endl;
     cout << "hello";
-}
-
+  }
 };
 
 /******************-FUNCTIONS-*********************/
@@ -103,27 +79,17 @@ void write(char *str)
 
 /********************-CLASS-**********************/
 
-class ip_file : public device
-{
-private:
+class ip_file : public device {
+ private:
+ protected:
+ public:
+  void file_input();
 
-protected:
-
-public:
-   void file_input();
-
-    void display_menu()
-    {
-        cout << "device called display_menu";
-    }
-
+  void display_menu() { cout << "device called display_menu"; }
 };
 /******************-FUNCTIONS-*********************/
-void ip_file::file_input()
-{
-
-
-   char str[30];
+void ip_file::file_input() {
+  char str[30];
 
   while (1) {
     cin.getline(str, 30, '\n');
@@ -134,7 +100,6 @@ void ip_file::file_input()
     else
       menu_call();
   }
-
 }
 /*********************-END-************************/
 
