@@ -37,3 +37,8 @@ void print_time(void) {
   outy << put_time(localtime(&time_now), "%T.") << setfill('0') << setw(3)
        << millisecs.count();
 }
+
+void print_date(void) {
+    time_t time_now = system_clock::to_time_t(system_clock::now());
+    cout << put_time(localtime(&time_now), "%Y%m%d");
+}
