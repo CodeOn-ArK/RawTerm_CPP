@@ -10,31 +10,17 @@ class log_class;
 
 /********************-CLASS-**********************/
 
-class time_printing
-{
-private:
-int time_enable = 1;
+class time_printing {
+ private:
+  int time_enable = 1;
 
-protected:
+ protected:
+ public:
+  void enable_time() { time_enable = 1; }
 
-public:
+  void disable_time() { time_enable = 0; }
 
-void enable_time()
-{
-    time_enable = 1;   
-}
-
-void disable_time()
-{
-    time_enable = 0;
-}
-
-
-int get_enable_status()
-{
-    return time_enable;
-}
-
+  int get_enable_status() { return time_enable; }
 };
 /******************-FUNCTIONS-*********************/
 
@@ -44,34 +30,33 @@ int get_enable_status()
 
 class device : public menu {
  private:
-
  protected:
-time_printing timeObj;
+  time_printing timeObj;
+
  public:
   /*
   switch_dev need to be called from the menu upon any given choice  ****TODO****
   */
- ofstream outy;
+  ofstream outy;
   void switch_dev(int i) {
     switch (i) {
       case 0:
-        //if (outf) outf.close();
+        // if (outf) outf.close();
         outy.open("/dev/ttyUSB0", ios::binary | ios::out);
         break;
-        
 
       case 1:
-        //if (outf) outf.close();
+        // if (outf) outf.close();
         outy.open("/dev/ttyUSB1", ios::binary | ios::out);
         break;
 
       case 2:
-        //if (outf) outf.close();
+        // if (outf) outf.close();
         outy.open("/dev/ttyACM0", ios::binary | ios::out);
         break;
 
       case 3:
-        //if (outf) outf.close();
+        // if (outf) outf.close();
         outy.open("/dev/ttyACM1", ios::binary | ios::out);
         break;
     }
@@ -92,36 +77,23 @@ time_printing timeObj;
 
 /********************-CLASS-**********************/
 
-class log_class : public device
-{
-private:
-ofstream log_file;
-int log_generation_status = 1;
+class log_class : public device {
+ private:
+  ofstream log_file;
+  int log_generation_status = 1;
 
+ protected:
+ public:
+  void enable_log() { log_generation_status = 1; }
 
-protected:
+  void disable_log() { log_generation_status = 0; }
 
-public:
-void enable_log()
-{
-    log_generation_status = 1;
-}
-
-void disable_log()
-{
-    log_generation_status = 0;
-}
-
-int get_log_status()
-{
-    return log_generation_status;
-}
-void generate_log(char *str)
-{
-    if(timeObj.get_enable_status()) log_file << print_time; //*****TODO******//
-    log_file << str << endl;  
-}
-
+  int get_log_status() { return log_generation_status; }
+  void generate_log(char *str) {
+    if (timeObj.get_enable_status())
+      log_file << print_time;  //*****TODO******//
+    log_file << str << endl;
+  }
 };
 /******************-FUNCTIONS-*********************/
 
@@ -129,9 +101,10 @@ void generate_log(char *str)
 
 /********************-CLASS-**********************/
 
-class ip_file : public device{
+class ip_file : public device {
  private:
- log_class logObj;
+  log_class logObj;
+
  protected:
  public:
   void file_input();
@@ -145,15 +118,14 @@ void ip_file::file_input() {
   while (1) {
     cin.getline(str, 30, '\n');
 
-    if(timeObj.get_enable_status()) print_time();
+    if (timeObj.get_enable_status()) print_time();
 
     cout << " affected";
-    if (strcmp(str, "__MENU"))
-      {
-        write(str);
-        if(logObj.get_log_status()) logObj.generate_log(str);
-      }
-    else
+    if (strcmp(str, "__MENU")) {
+      write(str);
+      cout << "\tgenerating_log\t";
+      if (logObj.get_log_status()) logObj.generate_log(str);
+    } else
       menu_call();
   }
 }
@@ -161,36 +133,23 @@ void ip_file::file_input() {
 
 /********************-CLASS-**********************/
 
-class baud
-{
-private:
-
-protected:
-
-public:
-
+class baud {
+ private:
+ protected:
+ public:
 };
 /******************-FUNCTIONS-*********************/
 
 /*********************-END-************************/
 
-
 /********************-CLASS-**********************/
 
-class newline
-{
-private:
-
-protected:
-
-public:
-
-}
-;
+class newline {
+ private:
+ protected:
+ public:
+};
 
 /******************-FUNCTIONS-*********************/
 
 /*********************-END-************************/
-
-
-
