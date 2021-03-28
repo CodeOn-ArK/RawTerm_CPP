@@ -5,6 +5,18 @@
 
 /********************-CLASS-**********************/
 
+class menu {
+ private:
+ protected:
+ public:
+  void display_menu() {}
+};
+/******************-FUNCTIONS-*********************/
+
+/*********************-END-************************/
+
+/********************-CLASS-**********************/
+
 class colour : public menu {
  private:
  protected:

@@ -7,18 +7,6 @@ using namespace std;
 void menu_call();
 
 class log_class;
-/********************-CLASS-**********************/
-
-class menu {
- private:
- protected:
- public:
-  void display_menu() {}
-};
-/******************-FUNCTIONS-*********************/
-
-/*********************-END-************************/
-
 
 /********************-CLASS-**********************/
 
@@ -104,7 +92,44 @@ time_printing timeObj;
 
 /********************-CLASS-**********************/
 
-class ip_file : public device {
+class log_class : public device
+{
+private:
+ofstream log_file;
+int log_generation_status = 1;
+
+
+protected:
+
+public:
+void enable_log()
+{
+    log_generation_status = 1;
+}
+
+void disable_log()
+{
+    log_generation_status = 0;
+}
+
+int get_log_status()
+{
+    return log_generation_status;
+}
+void generate_log(char *str)
+{
+    if(timeObj.get_enable_status()) log_file << print_time; //*****TODO******//
+    log_file << str << endl;  
+}
+
+};
+/******************-FUNCTIONS-*********************/
+
+/*********************-END-************************/
+
+/********************-CLASS-**********************/
+
+class ip_file : public device{
  private:
  log_class logObj;
  protected:
@@ -126,45 +151,12 @@ void ip_file::file_input() {
     if (strcmp(str, "__MENU"))
       {
         write(str);
-        if(logObj.log_generation_status) logObj.generate_log(str);
+        if(logObj.get_log_status()) logObj.generate_log(str);
       }
     else
       menu_call();
   }
 }
-/*********************-END-************************/
-
-/********************-CLASS-**********************/
-
-class log_class : public device
-{
-private:
-ofstream log_file;
-int log_generation_status = 1;
-
-
-protected:
-
-public:
-void enable_log()
-{
-    log_generation_status = 1;
-}
-
-void disable_log()
-{
-    log_generation_status = 0;
-}
-
-void generate_log(char *str)
-{
-    if(timeObj.get_enable_status()) log_file << print_time; //*****TODO******//
-    log_file << str << endl;  
-}
-
-};
-/******************-FUNCTIONS-*********************/
-
 /*********************-END-************************/
 
 /********************-CLASS-**********************/
