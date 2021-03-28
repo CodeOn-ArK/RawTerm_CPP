@@ -6,7 +6,7 @@
 using namespace std;
 
 #include "Final_Project.cpp"
-#include "menu.class"
+#include "menu.cpp"
 
 void term();
 void menu_call(void);

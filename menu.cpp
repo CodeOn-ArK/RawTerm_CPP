@@ -1,6 +1,7 @@
+#include <fstream>
+#include <iostream>
+
 #include "time.cpp"
-#include<iostream>
-#include<fstream>
 class switch_class;
 class colour;
 
@@ -69,7 +70,7 @@ class device : public menu {
 
   void write(char *str) {
     outy << str << endl;
-    cout << "hello";
+    cout << "\tdevice\t";
   }
 };
 
@@ -83,25 +84,30 @@ class log_class : public device {
  private:
   int log_generation_status = 1;
 
+  static int open;
+  ofstream logan;
+
  protected:
  public:
-
-  ofstream logan;
-  logan.open("chintu", ios::out | ios::binary);
-
   void enable_log() { log_generation_status = 1; }
 
   void disable_log() { log_generation_status = 0; }
 
   int get_log_status() { return log_generation_status; }
 
+  void open_file() {
+    if (open == 0) logan.open("chintu", ios::out | ios::binary);
+    open++;
+  }
+
   void generate_log(char *str) {
-    if (timeObj.get_enable_status())
-      logan << print_time;  //*****TODO******//
+    open_file();
+    if (timeObj.get_enable_status()) logan << print_time;  //*****TODO******//
     logan << str << endl;
   }
 };
 /******************-FUNCTIONS-*********************/
+int log_class::open = 0;
 
 /*********************-END-************************/
 
@@ -129,8 +135,10 @@ void ip_file::file_input() {
     cout << " affected";
     if (strcmp(str, "__MENU")) {
       write(str);
-      cout << "\tgenerating_log\t";
-      if (logObj.get_log_status()) logObj.generate_log(str);
+      if (logObj.get_log_status()) {
+        cout << "\tgenerating_log\t";
+        logObj.generate_log(str);
+      }
     } else
       menu_call();
   }
