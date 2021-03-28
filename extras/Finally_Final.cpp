@@ -3,12 +3,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <fstream>
+#include <iostream>
+
+#include "../menu.class"
+
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define CTRLD 4
 
+using namespace std;
+
 class switch_class;
 class colour;
-
+/*
 class colour  //: public menu
 {
  private:
@@ -41,6 +48,7 @@ class colour  //: public menu
 #endif
   }
 };
+*/
 /********************-CLASS-**********************/
 
 class switch_class {

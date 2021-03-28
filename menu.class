@@ -1,4 +1,9 @@
 #include "time.cpp"
+class switch_class;
+class colour;
+
+using namespace std;
+
 /********************-CLASS-**********************/
 
 class menu {
@@ -13,21 +18,40 @@ class menu {
 
 /********************-CLASS-**********************/
 
-class colour : public menu {
+class colour : public menu
+{
  private:
  protected:
  public:
   void change_clor_scheme(int i) {
     switch (i) {
       case 0:
-#undef PINK
-#define BLUE 1
+        init_pair(1, COLOR_YELLOW, COLOR_BLACK);
+        break;
 
       case 1:
-#undef BLUE
-#define PINK 1
+        init_pair(1, COLOR_BLUE, COLOR_BLACK);
+        break;
+
+      case 2:
+        init_pair(1, COLOR_CYAN, COLOR_BLACK);
+        break;
+
+      case 3:
+        init_pair(1, COLOR_RED, COLOR_BLACK);
+        break;
+        
+      case 4:
+        init_pair(1, COLOR_GREEN, COLOR_BLACK);
+        break;
+
+      case 5:
+        init_pair(1, COLOR_MAGENTA, COLOR_BLACK);
+        break;
     }
+
   }
+    void menu_call(void);
 };
 /******************-FUNCTIONS-*********************/
 
@@ -38,30 +62,35 @@ void menu_call(void);
 
 class device : public menu {
  private:
-  ofstream outf;
 
  protected:
  public:
   /*
   switch_dev need to be called from the menu upon any given choice  ****TODO****
   */
+ ofstream outy;
   void switch_dev(int i) {
     switch (i) {
       case 0:
-        if (outf) outf.close();
-        outf.open("/dev/ttyUSB0", ios::binary | ios::out);
+        //if (outf) outf.close();
+        outy.open("/dev/ttyUSB0", ios::binary | ios::out);
+        break;
+        
 
       case 1:
-        if (outf) outf.close();
-        outf.open("/dev/ttyUSB1", ios::binary | ios::out);
+        //if (outf) outf.close();
+        outy.open("/dev/ttyUSB1", ios::binary | ios::out);
+        break;
 
       case 2:
-        if (outf) outf.close();
-        outf.open("/dev/ttyACM0", ios::binary | ios::out);
+        //if (outf) outf.close();
+        outy.open("/dev/ttyACM0", ios::binary | ios::out);
+        break;
 
       case 3:
-        if (outf) outf.close();
-        outf.open("/dev/ttyACM1", ios::binary | ios::out);
+        //if (outf) outf.close();
+        outy.open("/dev/ttyACM1", ios::binary | ios::out);
+        break;
     }
   }
 
@@ -69,7 +98,7 @@ class device : public menu {
   void display_menu() { cout << "device called display_menu"; }
 
   void write(char *str) {
-    outf << str << endl;
+    outy << str << endl;
     cout << "hello";
   }
 };
@@ -95,7 +124,8 @@ void ip_file::file_input() {
   while (1) {
     cin.getline(str, 30, '\n');
 
-    print_time();
+    if(time_printing.get_enable_status) print_time();
+
     cout << " affected";
     if (strcmp(str, "__MENU"))
       write(str);
@@ -105,10 +135,83 @@ void ip_file::file_input() {
 }
 /*********************-END-************************/
 
-#if 0
 /********************-CLASS-**********************/
 
-class RENAME
+class time_printing
+{
+private:
+int time_enable;
+int hold_time;
+
+protected:
+
+public:
+
+void enable_time()
+{
+    time_enable = 1;   
+}
+
+void disable_time()
+{
+    time_enable = 0;
+}
+
+friend void hold_time()
+friend int return_hold_time()
+
+int get_enable_status()
+{
+    return time_enable;
+}
+
+};
+/******************-FUNCTIONS-*********************/
+
+void hold_time()
+{
+    hold_time = print_time();
+}
+
+int return_hold_time()
+{
+    return hold_time;
+}
+/*********************-END-************************/
+/********************-CLASS-**********************/
+
+class log_class
+{
+private:
+ofstream log_file;
+int log_generation_status;
+
+protected:
+
+public:
+void enable_log()
+{
+    log_generation_status = 1;
+}
+
+void disable_log()
+{
+    log_generation_status = 0;
+}
+
+void generate_log()
+{
+    if(get_enable_status)
+    log_file << str << endl;  
+}
+
+};
+/******************-FUNCTIONS-*********************/
+
+/*********************-END-************************/
+/********************-CLASS-**********************/
+
+class baud
 {
 private:
 
@@ -120,9 +223,11 @@ public:
 /******************-FUNCTIONS-*********************/
 
 /*********************-END-************************/
+
+
 /********************-CLASS-**********************/
 
-class RENAME
+class newline
 {
 private:
 
@@ -130,22 +235,12 @@ protected:
 
 public:
 
-};
+}
+;
+
 /******************-FUNCTIONS-*********************/
 
 /*********************-END-************************/
-/********************-CLASS-**********************/
 
-class RENAME
-{
-private:
 
-protected:
 
-public:
-
-};
-/******************-FUNCTIONS-*********************/
-
-/*********************-END-************************/
-#endif
