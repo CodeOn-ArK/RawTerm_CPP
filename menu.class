@@ -4,6 +4,9 @@ class colour;
 
 using namespace std;
 
+void menu_call();
+
+class log_class;
 /********************-CLASS-**********************/
 
 class menu {
@@ -16,54 +19,46 @@ class menu {
 
 /*********************-END-************************/
 
+
 /********************-CLASS-**********************/
 
-class colour : public menu
+class time_printing
 {
- private:
- protected:
- public:
-  void change_clor_scheme(int i) {
-    switch (i) {
-      case 0:
-        init_pair(1, COLOR_YELLOW, COLOR_BLACK);
-        break;
+private:
+int time_enable = 1;
 
-      case 1:
-        init_pair(1, COLOR_BLUE, COLOR_BLACK);
-        break;
+protected:
 
-      case 2:
-        init_pair(1, COLOR_CYAN, COLOR_BLACK);
-        break;
+public:
 
-      case 3:
-        init_pair(1, COLOR_RED, COLOR_BLACK);
-        break;
-        
-      case 4:
-        init_pair(1, COLOR_GREEN, COLOR_BLACK);
-        break;
+void enable_time()
+{
+    time_enable = 1;   
+}
 
-      case 5:
-        init_pair(1, COLOR_MAGENTA, COLOR_BLACK);
-        break;
-    }
+void disable_time()
+{
+    time_enable = 0;
+}
 
-  }
-    void menu_call(void);
+
+int get_enable_status()
+{
+    return time_enable;
+}
+
 };
 /******************-FUNCTIONS-*********************/
 
 /*********************-END-************************/
 
-void menu_call(void);
 /********************-CLASS-**********************/
 
 class device : public menu {
  private:
 
  protected:
+time_printing timeObj;
  public:
   /*
   switch_dev need to be called from the menu upon any given choice  ****TODO****
@@ -111,6 +106,7 @@ class device : public menu {
 
 class ip_file : public device {
  private:
+ log_class logObj;
  protected:
  public:
   void file_input();
@@ -124,11 +120,14 @@ void ip_file::file_input() {
   while (1) {
     cin.getline(str, 30, '\n');
 
-    if(time_printing.get_enable_status) print_time();
+    if(timeObj.get_enable_status()) print_time();
 
     cout << " affected";
     if (strcmp(str, "__MENU"))
-      write(str);
+      {
+        write(str);
+        if(logObj.log_generation_status) logObj.generate_log(str);
+      }
     else
       menu_call();
   }
@@ -137,54 +136,12 @@ void ip_file::file_input() {
 
 /********************-CLASS-**********************/
 
-class time_printing
-{
-private:
-int time_enable;
-int hold_time;
-
-protected:
-
-public:
-
-void enable_time()
-{
-    time_enable = 1;   
-}
-
-void disable_time()
-{
-    time_enable = 0;
-}
-
-friend void hold_time()
-friend int return_hold_time()
-
-int get_enable_status()
-{
-    return time_enable;
-}
-
-};
-/******************-FUNCTIONS-*********************/
-
-void hold_time()
-{
-    hold_time = print_time();
-}
-
-int return_hold_time()
-{
-    return hold_time;
-}
-/*********************-END-************************/
-/********************-CLASS-**********************/
-
-class log_class
+class log_class : public device
 {
 private:
 ofstream log_file;
-int log_generation_status;
+int log_generation_status = 1;
+
 
 protected:
 
@@ -199,9 +156,9 @@ void disable_log()
     log_generation_status = 0;
 }
 
-void generate_log()
+void generate_log(char *str)
 {
-    if(get_enable_status)
+    if(timeObj.get_enable_status()) log_file << print_time; //*****TODO******//
     log_file << str << endl;  
 }
 
@@ -209,6 +166,7 @@ void generate_log()
 /******************-FUNCTIONS-*********************/
 
 /*********************-END-************************/
+
 /********************-CLASS-**********************/
 
 class baud

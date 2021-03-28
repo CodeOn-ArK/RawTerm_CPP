@@ -10,6 +10,7 @@ using namespace std::chrono;
 void print_time(void) {
   string time_file = "chintu";
   ofstream outy(time_file.c_str(), ios::out);
+
   const auto p1 = system_clock::now();
 
   /* This is a workaround as `struct tm' from <ctime> doesn't seem to have a
@@ -34,11 +35,12 @@ void print_time(void) {
    */
   cout << put_time(localtime(&time_now), "%T.") << setfill('0') << setw(3)
        << millisecs.count();
-  outy << put_time(localtime(&time_now), "%T.") << setfill('0') << setw(3)
-       << millisecs.count();
+  // outy << put_time(localtime(&time_now), "%T.") << setfill('0') << setw(3)
+  //    << millisecs.count();
+  //
 }
 
 void print_date(void) {
-    time_t time_now = system_clock::to_time_t(system_clock::now());
-    cout << put_time(localtime(&time_now), "%Y%m%d");
+  time_t time_now = system_clock::to_time_t(system_clock::now());
+  cout << put_time(localtime(&time_now), "%Y%m%d");
 }
