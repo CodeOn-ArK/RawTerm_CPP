@@ -138,8 +138,7 @@ class ip_file : public device {
 void ip_file::file_input() {
   char str[30];
 
-  while (1) {
-    cin.getline(str, 30, '\n');
+  while (cin.getline(str, 30, '\n')) {
 
     if (timeObj.get_enable_status()) print_time();
 
