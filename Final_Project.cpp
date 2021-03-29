@@ -4,7 +4,7 @@
 #include <string.h>
 
 extern class_mem memory;
-void SwitchSub_menu(const MENU* m);
+void SwitchSub_menu(const MENU* m, const char* yy);
 /********************-CLASS-**********************/
 
 class SubMenu_Class {
@@ -226,7 +226,7 @@ ITEM* my_item6[] = {new_item("Enable", " "), new_item("Disable", " "),
                     new_item("Exit", " "), NULL};
 
 void setting(MENU*, WINDOW*, int);
-void select(WINDOW*, MENU*, int, ITEM**, int);
+void select(WINDOW*, MENU*, int, ITEM**, int, int = 0);
 
 void menu_call() {
   int i, c;
@@ -298,23 +298,26 @@ void menu_call() {
           exit(EXIT_SUCCESS);
         } else if (!strcmp(item_name(current_item(my_menu)), "Clear Screen")) {
           flag = 1;
-        } else if (!strncmp("Col", item_name(current_item(my_menu)), 3))
+        }
+
+        else if (!strncmp("Col", item_name(current_item(my_menu)), 3))
           select(my_menu_win1, my_menu, 7, my_item1, 21);
 
         else if (!strncmp("Dev", item_name(current_item(my_menu)), 3))
           select(my_menu_win2, my_menu, 6, my_item2, 38);
 
+#define time 1
         else if (!strncmp("Tim", item_name(current_item(my_menu)), 3))
-          select(my_menu_win3, my_menu, 3, my_item3, 55);
-
+          select(my_menu_win3, my_menu, 3, my_item3, 55, time);
+#define log 2
         else if (!strncmp("Gen", item_name(current_item(my_menu)), 3))
-          select(my_menu_win4, my_menu, 3, my_item4, 72);
+          select(my_menu_win4, my_menu, 3, my_item4, 72, log);
+#define newline 3
+        else if (!strncmp("Send", item_name(current_item(my_menu)), 4))
+          select(my_menu_win6, my_menu, 3, my_item6, 123, newline);
 
         else if (!strncmp("Baud", item_name(current_item(my_menu)), 4))
           select(my_menu_win5, my_menu, 4, my_item5, 106);
-
-        else if (!strncmp("Send", item_name(current_item(my_menu)), 4))
-          select(my_menu_win6, my_menu, 3, my_item6, 123);
     }
 }
 
@@ -332,7 +335,8 @@ void setting(MENU* m, WINDOW* w) {
   wrefresh(w);
 }
 
-void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int x_axis) {
+void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int x_axis,
+            int yy) {
   int d, flag = 0;
 
   unpost_menu(main_menu);
@@ -359,7 +363,7 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int x_axis) {
           mvprintw(10, 0, "console exiting");
           exit(EXIT_SUCCESS);
         }
-        SwitchSub_menu(m);
+        SwitchSub_menu(m, item_name(current_item(main_menu)));
         if (!strncmp("Exit", item_name(current_item(m)), 4)) {
           werase(w);
           wrefresh(w);
@@ -374,41 +378,7 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int x_axis) {
     }
 }
 
-void SwitchSub_menu(const MENU* m) {
-  if (!strcmp(item_name(current_item(m)), "Yellow")) {
-    mvprintw(10, 0, "console exiting");
-    MENU_Obj.switch_ClassMenu(SubMenuObj.YELLOW);
-  }
-  if (!strcmp(item_name(current_item(m)), "Blue"))
-    MENU_Obj.switch_ClassMenu(SubMenuObj.BLUE);
-  if (!strcmp(item_name(current_item(m)), "Cyan"))
-    MENU_Obj.switch_ClassMenu(SubMenuObj.CYAN);
-  if (!strcmp(item_name(current_item(m)), "Green"))
-    MENU_Obj.switch_ClassMenu(SubMenuObj.GREEN);
-  if (!strcmp(item_name(current_item(m)), "Red"))
-    MENU_Obj.switch_ClassMenu(SubMenuObj.RED);
-  if (!strcmp(item_name(current_item(m)), "Magenta"))
-    MENU_Obj.switch_ClassMenu(SubMenuObj.MAGENTA);
-
-  if (!strcmp(item_name(current_item(m)), "ttyACM0"))
-
-    mvprintw(10, 0, "device exiting");
-  MENU_Obj.switch_ClassMenu(SubMenuObj.acm0);
-  if (!strcmp(item_name(current_item(m)), "ttyACM1"))
-    MENU_Obj.switch_ClassMenu(SubMenuObj.acm1);
-  if (!strcmp(item_name(current_item(m)), "USB 0"))
-    MENU_Obj.switch_ClassMenu(SubMenuObj.usb0);
-  if (!strcmp(item_name(current_item(m)), "USB 1"))
-    MENU_Obj.switch_ClassMenu(SubMenuObj.usb1);
-  if (!strcmp(item_name(current_item(m)), "USB 2"))
-    MENU_Obj.switch_ClassMenu(SubMenuObj.usb2);
-
-  /*
-  if (!strcmp(item_name(current_item(m)), "EXIT Console")) {
-    mvprintw(10, 0, "console exiting");
-    exit(EXIT_SUCCESS);
-  }
-  */
+void SwitchSub_menu(const MENU* m, const char* menu_sub) {
   if (!strcmp(item_name(current_item(m)), "Yellow"))
     MENU_Obj.switch_ClassMenu(SubMenuObj.YELLOW);
   if (!strcmp(item_name(current_item(m)), "Blue"))
@@ -421,4 +391,44 @@ void SwitchSub_menu(const MENU* m) {
     MENU_Obj.switch_ClassMenu(SubMenuObj.RED);
   if (!strcmp(item_name(current_item(m)), "Magenta"))
     MENU_Obj.switch_ClassMenu(SubMenuObj.MAGENTA);
+
+  if (!strcmp(item_name(current_item(m)), "ttyACM0"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.acm0);
+  if (!strcmp(item_name(current_item(m)), "ttyACM1"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.acm1);
+  if (!strcmp(item_name(current_item(m)), "USB 0"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.usb0);
+  if (!strcmp(item_name(current_item(m)), "USB 1"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.usb1);
+  if (!strcmp(item_name(current_item(m)), "USB 2"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.usb2);
+
+  if (!strcmp(item_name(current_item(m)), "2400"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.br2400);
+  if (!strcmp(item_name(current_item(m)), "9600"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.br9600);
+  if (!strcmp(item_name(current_item(m)), "115200"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.br115200);
+
+  if ((!strcmp(item_name(current_item(m)), "Enable")) &&
+      ((!strcmp(menu_sub, "Time Stamp"))))
+    mvprintw(0, 0, "time_enable");
+  MENU_Obj.switch_ClassMenu(SubMenuObj.enable_time);
+  if ((!strcmp(item_name(current_item(m)), "Disable")) &&
+      ((!strcmp(menu_sub, "Time Stamp"))))
+    mvprintw(0, 0, "time_disable");
+  MENU_Obj.switch_ClassMenu(SubMenuObj.disable_time);
+
+  /*
+  if ((!strcmp(item_name(current_item(m)), "Enable")) && (menu_sub == 3))
+    mvprintw(1, 0, "time_fdlfjsdfsdfass");
+  MENU_Obj.switch_ClassMenu(SubMenuObj.enable_nl);
+  if ((!strcmp(item_name(current_item(m)), "Disable")) && (menu_sub == 3))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.disable_nl);
+
+  if ((!strcmp(item_name(current_item(m)), "Enable")) && (menu_sub == 2))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.enable_log);
+  if ((!strcmp(item_name(current_item(m)), "Disable")) && (menu_sub == 2))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.disable_log);
+    */
 }
