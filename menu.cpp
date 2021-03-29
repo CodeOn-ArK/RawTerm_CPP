@@ -3,7 +3,6 @@ class switch_class;
 class colour;
 
 using namespace std;
-
 void menu_call();
 
 class log_class;
@@ -68,6 +67,7 @@ class device : public menu {
   void write(char *str) {
     outy << str << endl;
     cout << "\tdevice\t";
+    cout << memory.colourfulObj.return_colourStatus() << endl;
   }
 };
 

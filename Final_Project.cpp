@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+// extern class_mem memory;
+void SwitchSub_menu(const MENU* m);
 /********************-CLASS-**********************/
 
 class SubMenu_Class {
@@ -49,7 +51,7 @@ class menu {
 
 class colour : public menu {
  private:
-  int markdown_colour = 0;
+  int markdown_colour;
 
  protected:
  public:
@@ -57,26 +59,32 @@ class colour : public menu {
     switch (i) {
       case 0:
         init_pair(1, COLOR_YELLOW, COLOR_BLACK);
+        markdown_colour = 0;
         break;
 
       case 1:
         init_pair(1, COLOR_BLUE, COLOR_BLACK);
+        markdown_colour = 1;
         break;
 
       case 2:
         init_pair(1, COLOR_CYAN, COLOR_BLACK);
+        markdown_colour = 2;
         break;
 
       case 3:
         init_pair(1, COLOR_RED, COLOR_BLACK);
+        markdown_colour = 3;
         break;
 
       case 4:
         init_pair(1, COLOR_GREEN, COLOR_BLACK);
+        markdown_colour = 4;
         break;
 
       case 5:
         init_pair(1, COLOR_MAGENTA, COLOR_BLACK);
+        markdown_colour = 5;
         break;
     }
   }
@@ -91,36 +99,57 @@ void menu_call(void);
 
 /********************-CLASS-**********************/
 
+class class_mem {
+ private:
+ protected:
+ public:
+  colour colourfulObj;
+  device devObj;
+  log_class logObj;
+  baud baudObj;
+  newline newObj;
+};
+
+/******************-FUNCTIONS-*********************/
+
+/*********************-END-************************/
+/********************-CLASS-**********************/
+
 class switch_class {
  private:
-  colour clr_obj;
-
  protected:
  public:
   void switch_ClassMenu(int i) {
     switch (i) {
       case SubMenuObj.YELLOW:
-        clr_obj.change_clor_scheme(0);
+        memory.colourfulObj.change_clor_scheme(0);
         break;
 
       case SubMenuObj.BLUE:
-        clr_obj.change_clor_scheme(1);
+        memory.colourfulObj.change_clor_scheme(1);
         break;
 
       case SubMenuObj.CYAN:
-        clr_obj.change_clor_scheme(2);
+        memory.colourfulObj.change_clor_scheme(2);
         break;
 
       case SubMenuObj.RED:
-        clr_obj.change_clor_scheme(3);
+        memory.colourfulObj.change_clor_scheme(3);
         break;
 
       case SubMenuObj.GREEN:
-        clr_obj.change_clor_scheme(4);
+        memory.colourfulObj.change_clor_scheme(4);
         break;
 
       case SubMenuObj.MAGENTA:
-        clr_obj.change_clor_scheme(5);
+        memory.colourfulObj.change_clor_scheme(5);
+        break;
+
+      case SubMenuObj.enable_time:
+
+        break;
+
+      case SubMenuObj.disable_time:
         break;
 
       case SubMenuObj.enable_log:
@@ -205,9 +234,7 @@ void menu_call() {
   noecho();
   keypad(stdscr, TRUE);
 
-  colour colourfulObj;
-
-  colourfulObj.change_clor_scheme(colourfulObj.return_colourStatus());
+  memory.colourfulObj.change_clor_scheme(colourfulObj.return_colourStatus());
   init_pair(2, COLOR_GREEN, COLOR_BLACK);
 
   /* Initialize items */
@@ -309,20 +336,9 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int x_axis) {
         mvprintw(20, 0, "Item selected is : %s", item_name(current_item(m)));
         refresh();
         /*
-         *
+         *TODO
          */
-        if (!strcmp(item_name(current_item(m)), "Yellow"))
-          MENU_Obj.switch_ClassMenu(SubMenuObj.YELLOW);
-        if (!strcmp(item_name(current_item(m)), "Blue"))
-          MENU_Obj.switch_ClassMenu(SubMenuObj.BLUE);
-        if (!strcmp(item_name(current_item(m)), "Cyan"))
-          MENU_Obj.switch_ClassMenu(SubMenuObj.CYAN);
-        if (!strcmp(item_name(current_item(m)), "Green"))
-          MENU_Obj.switch_ClassMenu(SubMenuObj.GREEN);
-        if (!strcmp(item_name(current_item(m)), "Red"))
-          MENU_Obj.switch_ClassMenu(SubMenuObj.RED);
-        if (!strcmp(item_name(current_item(m)), "Magenta"))
-          MENU_Obj.switch_ClassMenu(SubMenuObj.MAGENTA);
+        SwitchSub_menu(m);
         if (!strncmp("Exit", item_name(current_item(m)), 4)) {
           werase(w);
           wrefresh(w);
@@ -335,4 +351,19 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int x_axis) {
         if (flag == 1) return;
         pos_menu_cursor(m);
     }
+}
+
+void SwitchSub_menu(const MENU* m) {
+  if (!strcmp(item_name(current_item(m)), "Yellow"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.YELLOW);
+  if (!strcmp(item_name(current_item(m)), "Blue"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.BLUE);
+  if (!strcmp(item_name(current_item(m)), "Cyan"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.CYAN);
+  if (!strcmp(item_name(current_item(m)), "Green"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.GREEN);
+  if (!strcmp(item_name(current_item(m)), "Red"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.RED);
+  if (!strcmp(item_name(current_item(m)), "Magenta"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.MAGENTA);
 }

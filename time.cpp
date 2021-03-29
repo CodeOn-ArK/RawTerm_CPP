@@ -1,5 +1,6 @@
 #include "RawTerm.hpp"
 
+extern colour colourfulObj;
 void print_time(void) {
   const auto p1 = system_clock::now();
 
