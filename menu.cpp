@@ -6,6 +6,20 @@ using namespace std;
 void menu_call();
 
 class log_class;
+class class_mem;
+
+class_mem memory;
+/********************-CLASS-**********************/
+
+class menu {
+ private:
+ protected:
+ public:
+  void display_menu() {}
+};
+/******************-FUNCTIONS-*********************/
+
+/*********************-END-************************/
 
 /********************-CLASS-**********************/
 
@@ -164,3 +178,22 @@ class newline {
 /******************-FUNCTIONS-*********************/
 
 /*********************-END-************************/
+
+/********************-CLASS-**********************/
+
+class class_mem {
+ private:
+ protected:
+ public:
+  colour colourfulObj;
+  device devObj;
+  log_class logObj;
+  baud baudObj;
+  newline newObj;
+};
+
+/******************-FUNCTIONS-*********************/
+
+/*********************-END-************************/
+
+#include "Final_Project.cpp"

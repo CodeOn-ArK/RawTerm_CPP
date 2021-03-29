@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// extern class_mem memory;
+extern class_mem memory;
 void SwitchSub_menu(const MENU* m);
 /********************-CLASS-**********************/
 
@@ -31,18 +31,6 @@ class SubMenu_Class {
   enum baudrate { br2400 = 61, br9600, br115200 };
 } SubMenuObj;
 
-/******************-FUNCTIONS-*********************/
-
-/*********************-END-************************/
-
-/********************-CLASS-**********************/
-
-class menu {
- private:
- protected:
- public:
-  void display_menu() {}
-};
 /******************-FUNCTIONS-*********************/
 
 /*********************-END-************************/
@@ -97,22 +85,6 @@ class colour : public menu {
 
 void menu_call(void);
 
-/********************-CLASS-**********************/
-
-class class_mem {
- private:
- protected:
- public:
-  colour colourfulObj;
-  device devObj;
-  log_class logObj;
-  baud baudObj;
-  newline newObj;
-};
-
-/******************-FUNCTIONS-*********************/
-
-/*********************-END-************************/
 /********************-CLASS-**********************/
 
 class switch_class {
@@ -234,7 +206,8 @@ void menu_call() {
   noecho();
   keypad(stdscr, TRUE);
 
-  memory.colourfulObj.change_clor_scheme(colourfulObj.return_colourStatus());
+  memory.colourfulObj.change_clor_scheme(
+      memory.colourfulObj.return_colourStatus());
   init_pair(2, COLOR_GREEN, COLOR_BLACK);
 
   /* Initialize items */
