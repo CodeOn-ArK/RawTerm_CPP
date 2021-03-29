@@ -97,6 +97,7 @@ class class_mem : virtual public time_printing,
  private:
  protected:
  public:
+  time_printing timeObj;
   colour colourfulObj;
   device devObj;
   log_class logObj;
@@ -140,43 +141,55 @@ class switch_class {
         break;
 
       case SubMenuObj.enable_time:
-
+        memory.timeObj.enable_time();
         break;
 
       case SubMenuObj.disable_time:
+        memory.timeObj.disable_time();
         break;
 
       case SubMenuObj.enable_log:
+        memory.logObj.enable_log();
         break;
 
       case SubMenuObj.disable_log:
+        memory.logObj.enable_log();
         break;
 
       case SubMenuObj.usb0:
+        memory.devObj.switch_dev(0);
         break;
 
       case SubMenuObj.usb1:
-        break;
-
-      case SubMenuObj.usb2:
+        memory.devObj.switch_dev(1);
         break;
 
       case SubMenuObj.acm0:
+        memory.devObj.switch_dev(2);
+        break;
+
+      case SubMenuObj.acm1:
+        memory.devObj.switch_dev(3);
         break;
 
       case SubMenuObj.enable_nl:
+        memory.newObj.enable_newline();
         break;
 
       case SubMenuObj.disable_nl:
+        memory.newObj.disable_newline();
         break;
 
       case SubMenuObj.br2400:
+        memory.baudObj.switch_baud(0);
         break;
 
       case SubMenuObj.br9600:
+        memory.baudObj.switch_baud(1);
         break;
 
       case SubMenuObj.br115200:
+        memory.baudObj.switch_baud(2);
         break;
     }
   }
@@ -250,6 +263,7 @@ void menu_call() {
   set_menu_sub(my_menu, derwin(my_menu_win, 0, 0, 2, 1));
   set_menu_mark(my_menu, " * ");
 
+  static int flag = 0;
   /* Post the menu */
   mvprintw(LINES - 3, 0, "Press <ENTER> to see the option selected");
   mvprintw(LINES - 2, 0, "Up,Down,Left & Right arrow keys to navigate ");
@@ -273,10 +287,18 @@ void menu_call() {
           for (int i = 0; i < 9; ++i) free_item(my_item[i]);
           free_menu(my_menu);
           endwin();
+          if (flag) system("clear");
           return;
-        }
-
-        else if (!strncmp("Col", item_name(current_item(my_menu)), 3))
+        } else if (!strcmp(item_name(current_item(my_menu)), "EXIT Console")) {
+          unpost_menu(my_menu);
+          for (int i = 0; i < 9; ++i) free_item(my_item[i]);
+          free_menu(my_menu);
+          endwin();
+          system("clear");
+          exit(EXIT_SUCCESS);
+        } else if (!strcmp(item_name(current_item(my_menu)), "Clear Screen")) {
+          flag = 1;
+        } else if (!strncmp("Col", item_name(current_item(my_menu)), 3))
           select(my_menu_win1, my_menu, 7, my_item1, 21);
 
         else if (!strncmp("Dev", item_name(current_item(my_menu)), 3))
@@ -333,6 +355,10 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int x_axis) {
         /*
          *TODO
          */
+        if (!strcmp(item_name(current_item(m)), "EXIT Console")) {
+          mvprintw(10, 0, "console exiting");
+          exit(EXIT_SUCCESS);
+        }
         SwitchSub_menu(m);
         if (!strncmp("Exit", item_name(current_item(m)), 4)) {
           werase(w);
@@ -349,6 +375,40 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int x_axis) {
 }
 
 void SwitchSub_menu(const MENU* m) {
+  if (!strcmp(item_name(current_item(m)), "Yellow")) {
+    mvprintw(10, 0, "console exiting");
+    MENU_Obj.switch_ClassMenu(SubMenuObj.YELLOW);
+  }
+  if (!strcmp(item_name(current_item(m)), "Blue"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.BLUE);
+  if (!strcmp(item_name(current_item(m)), "Cyan"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.CYAN);
+  if (!strcmp(item_name(current_item(m)), "Green"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.GREEN);
+  if (!strcmp(item_name(current_item(m)), "Red"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.RED);
+  if (!strcmp(item_name(current_item(m)), "Magenta"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.MAGENTA);
+
+  if (!strcmp(item_name(current_item(m)), "ttyACM0"))
+
+    mvprintw(10, 0, "device exiting");
+  MENU_Obj.switch_ClassMenu(SubMenuObj.acm0);
+  if (!strcmp(item_name(current_item(m)), "ttyACM1"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.acm1);
+  if (!strcmp(item_name(current_item(m)), "USB 0"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.usb0);
+  if (!strcmp(item_name(current_item(m)), "USB 1"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.usb1);
+  if (!strcmp(item_name(current_item(m)), "USB 2"))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.usb2);
+
+  /*
+  if (!strcmp(item_name(current_item(m)), "EXIT Console")) {
+    mvprintw(10, 0, "console exiting");
+    exit(EXIT_SUCCESS);
+  }
+  */
   if (!strcmp(item_name(current_item(m)), "Yellow"))
     MENU_Obj.switch_ClassMenu(SubMenuObj.YELLOW);
   if (!strcmp(item_name(current_item(m)), "Blue"))

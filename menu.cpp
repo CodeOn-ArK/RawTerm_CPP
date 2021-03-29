@@ -118,7 +118,7 @@ class log_class : public device {
 };
 /******************-FUNCTIONS-*********************/
 int log_class::open = 0;
-int log_class::log_generation_status = 1;
+int log_class::log_generation_status = 0;
 
 /*********************-END-************************/
 
@@ -160,22 +160,46 @@ void ip_file::file_input() {
 
 class baud {
  private:
+  static int baud_status;
+
  protected:
  public:
+  void enable_baud() { baud_status = 1; }
+  void disable_baud() { baud_status = 0; }
+  int get_baud_status() { return baud_status; }
+
+  void switch_baud(int i) {
+    switch (i) {
+      case 0:
+        break;
+      case 1:
+        break;
+      case 2:
+        break;
+    }
+  }
 };
 /******************-FUNCTIONS-*********************/
 
+int baud::baud_status;
 /*********************-END-************************/
 
 /********************-CLASS-**********************/
 
 class newline {
  private:
+  static int newline_status;
+
  protected:
  public:
+  void enable_newline() { newline_status = 1; }
+  void disable_newline() { newline_status = 0; }
+
+  int get_nl_status(void) { return newline_status; }
 };
 
 /******************-FUNCTIONS-*********************/
 
+int newline::newline_status;
 /*********************-END-************************/
 #include "Final_Project.cpp"
