@@ -1,7 +1,4 @@
-#include <fstream>
-#include <iostream>
-
-#include "time.cpp"
+#include "RawTerm.hpp"
 class switch_class;
 class colour;
 
@@ -103,7 +100,7 @@ class log_class : public device {
   void generate_log(char *str) {
     open_file();
     if (timeObj.get_enable_status()) logan << print_time;  //*****TODO******//
-    logan << str << endl;
+    logan << "\t" << str << endl;
   }
 };
 /******************-FUNCTIONS-*********************/

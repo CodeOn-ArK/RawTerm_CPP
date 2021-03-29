@@ -5,6 +5,36 @@
 
 /********************-CLASS-**********************/
 
+class SubMenu_Class {
+ private:
+ protected:
+ public:
+  enum colour {
+    YELLOW = 11,
+    BLUE,
+    CYAN,
+    RED,
+    GREEN,
+    MAGENTA,
+  };
+
+  enum log { enable_log = 21, disable_log };
+
+  enum device { usb0 = 31, usb1, usb2, acm0, acm1 };
+
+  enum time { enable_time = 41, disable_time };
+
+  enum newline { enable_nl = 51, disable_nl };
+
+  enum baudrate { br2400 = 61, br9600, br115200 };
+} SubMenuObj;
+
+/******************-FUNCTIONS-*********************/
+
+/*********************-END-************************/
+
+/********************-CLASS-**********************/
+
 class menu {
  private:
  protected:
@@ -19,6 +49,8 @@ class menu {
 
 class colour : public menu {
  private:
+  int markdown_colour = 0;
+
  protected:
  public:
   void change_clor_scheme(int i) {
@@ -48,6 +80,7 @@ class colour : public menu {
         break;
     }
   }
+  int return_colourStatus() { return markdown_colour; }
   void menu_call(void);
 };
 /******************-FUNCTIONS-*********************/
@@ -66,47 +99,65 @@ class switch_class {
  public:
   void switch_ClassMenu(int i) {
     switch (i) {
-      case 0:
+      case SubMenuObj.YELLOW:
         clr_obj.change_clor_scheme(0);
         break;
 
-      case 1:
+      case SubMenuObj.BLUE:
         clr_obj.change_clor_scheme(1);
         break;
-        /*
 
-                        break;
+      case SubMenuObj.CYAN:
+        clr_obj.change_clor_scheme(2);
+        break;
 
-                      case 1:
-                        break;
+      case SubMenuObj.RED:
+        clr_obj.change_clor_scheme(3);
+        break;
 
-                      case 1:
-                        break;
+      case SubMenuObj.GREEN:
+        clr_obj.change_clor_scheme(4);
+        break;
 
-                      case 1:
-                        break;
+      case SubMenuObj.MAGENTA:
+        clr_obj.change_clor_scheme(5);
+        break;
 
-                      case 1:
-                        break;
+      case SubMenuObj.enable_log:
+        break;
 
-                      case 1:
-                        break;
+      case SubMenuObj.disable_log:
+        break;
 
-                      case 1:
-                        break;
+      case SubMenuObj.usb0:
+        break;
 
-                      case 1:
-                        break;
+      case SubMenuObj.usb1:
+        break;
 
-                      case 1:
-                        break;
+      case SubMenuObj.usb2:
+        break;
 
-                      case 1:
-                        break;
-                        */
+      case SubMenuObj.acm0:
+        break;
+
+      case SubMenuObj.enable_nl:
+        break;
+
+      case SubMenuObj.disable_nl:
+        break;
+
+      case SubMenuObj.br2400:
+        break;
+
+      case SubMenuObj.br9600:
+        break;
+
+      case SubMenuObj.br115200:
+        break;
     }
   }
-};
+} MENU_Obj;
 
 /******************-FUNCTIONS-*********************/
 
@@ -153,7 +204,10 @@ void menu_call() {
   cbreak();
   noecho();
   keypad(stdscr, TRUE);
-  init_pair(1, COLOR_RED, COLOR_BLACK);
+
+  colour colourfulObj;
+
+  colourfulObj.change_clor_scheme(colourfulObj.return_colourStatus());
   init_pair(2, COLOR_GREEN, COLOR_BLACK);
 
   /* Initialize items */
@@ -166,7 +220,7 @@ void menu_call() {
   menu_opts_off(my_menu, O_SHOWDESC);
 
   /*Create the window to be associated with the menu*/
-  my_menu_win = newwin(5, 149, 0, 20);
+  my_menu_win = newwin(5, 149, 0, 15);
   keypad(my_menu_win, TRUE);
 
   /*Set main window and sub window*/
@@ -255,8 +309,20 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int x_axis) {
         mvprintw(20, 0, "Item selected is : %s", item_name(current_item(m)));
         refresh();
         /*
-         *TODO
+         *
          */
+        if (!strcmp(item_name(current_item(m)), "Yellow"))
+          MENU_Obj.switch_ClassMenu(SubMenuObj.YELLOW);
+        if (!strcmp(item_name(current_item(m)), "Blue"))
+          MENU_Obj.switch_ClassMenu(SubMenuObj.BLUE);
+        if (!strcmp(item_name(current_item(m)), "Cyan"))
+          MENU_Obj.switch_ClassMenu(SubMenuObj.CYAN);
+        if (!strcmp(item_name(current_item(m)), "Green"))
+          MENU_Obj.switch_ClassMenu(SubMenuObj.GREEN);
+        if (!strcmp(item_name(current_item(m)), "Red"))
+          MENU_Obj.switch_ClassMenu(SubMenuObj.RED);
+        if (!strcmp(item_name(current_item(m)), "Magenta"))
+          MENU_Obj.switch_ClassMenu(SubMenuObj.MAGENTA);
         if (!strncmp("Exit", item_name(current_item(m)), 4)) {
           werase(w);
           wrefresh(w);

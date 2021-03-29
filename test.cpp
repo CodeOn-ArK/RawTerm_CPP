@@ -1,11 +1,15 @@
+#include <iomanip>
 #include <iostream>
-
-#include "time.cpp"
 
 using namespace std;
 
 int main() {
-  print_time();
+  typedef enum {
+    yello,
+    trye,
+    fjf,
+  };
 
+  cout << yello << "\t" << trye;
   return 0;
 }

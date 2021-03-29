@@ -1,11 +1,4 @@
-#include <chrono>
-#include <ctime>
-#include <fstream>
-#include <iomanip>
-#include <iostream>
-
-using namespace std;
-using namespace std::chrono;
+#include "RawTerm.hpp"
 
 void print_time(void) {
   const auto p1 = system_clock::now();
@@ -64,7 +57,9 @@ ostream& print_time(ostream& output) {
   return output;
 }
 
-void print_date(void) {
+ostream& print_date(ostream& output) {
   time_t time_now = system_clock::to_time_t(system_clock::now());
-  cout << put_time(localtime(&time_now), "%Y%m%d");
+  output << put_time(localtime(&time_now), "%Y%m%d");
+
+  return output;
 }

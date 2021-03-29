@@ -1,12 +1,4 @@
-#include <cstdlib>
-#include <cstring>
-#include <fstream>
-#include <iostream>
-
-using namespace std;
-
-#include "Final_Project.cpp"
-#include "menu.cpp"
+#include "RawTerm.hpp"
 
 void term();
 void menu_call(void);

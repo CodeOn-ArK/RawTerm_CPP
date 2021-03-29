@@ -1,4 +1,3 @@
-#include "time.cpp"
 #include<iostream>
 #include<fstream>
 class switch_class;
@@ -25,7 +24,10 @@ class time_printing {
   int get_enable_status() { return time_enable; }
 };
 /******************-FUNCTIONS-*********************/
-
+/***TODO*****/
+ostream& print_date(ostream& output);
+ostream& print_time(ostream& output);
+void print_time(void);
 /*********************-END-************************/
 
 /********************-CLASS-**********************/
