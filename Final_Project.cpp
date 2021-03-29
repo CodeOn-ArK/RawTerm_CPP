@@ -39,7 +39,7 @@ class SubMenu_Class {
 
 class colour : public menu {
  private:
-  int markdown_colour;
+  static int markdown_colour;
 
  protected:
  public:
@@ -81,10 +81,32 @@ class colour : public menu {
 };
 /******************-FUNCTIONS-*********************/
 
+int colour::markdown_colour = 1;
 /*********************-END-************************/
 
 void menu_call(void);
 
+/********************-CLASS-**********************/
+
+class class_mem : virtual public time_printing,
+                  virtual public device,
+                  virtual public log_class,
+                  virtual public baud,
+                  virtual public newline,
+                  virtual public colour {
+ private:
+ protected:
+ public:
+  colour colourfulObj;
+  device devObj;
+  log_class logObj;
+  baud baudObj;
+  newline newObj;
+} memory;
+
+/******************-FUNCTIONS-*********************/
+
+/*********************-END-************************/
 /********************-CLASS-**********************/
 
 class switch_class {

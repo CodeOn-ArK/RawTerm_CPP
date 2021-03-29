@@ -8,7 +8,6 @@ void menu_call();
 class log_class;
 class class_mem;
 
-class_mem memory;
 /********************-CLASS-**********************/
 
 class menu {
@@ -25,7 +24,7 @@ class menu {
 
 class time_printing {
  private:
-  int time_enable = 1;
+  static int time_enable;
 
  protected:
  public:
@@ -37,6 +36,7 @@ class time_printing {
 };
 /******************-FUNCTIONS-*********************/
 
+int time_printing::time_enable = 1;
 /*********************-END-************************/
 
 /********************-CLASS-**********************/
@@ -81,7 +81,6 @@ class device : public menu {
   void write(char *str) {
     outy << str << endl;
     cout << "\tdevice\t";
-    cout << memory.colourfulObj.return_colourStatus() << endl;
   }
 };
 
@@ -93,7 +92,7 @@ class device : public menu {
 
 class log_class : public device {
  private:
-  int log_generation_status = 1;
+  static int log_generation_status;
 
   static int open;
   ofstream logan;
@@ -119,6 +118,7 @@ class log_class : public device {
 };
 /******************-FUNCTIONS-*********************/
 int log_class::open = 0;
+int log_class::log_generation_status = 1;
 
 /*********************-END-************************/
 
@@ -178,22 +178,4 @@ class newline {
 /******************-FUNCTIONS-*********************/
 
 /*********************-END-************************/
-
-/********************-CLASS-**********************/
-
-class class_mem {
- private:
- protected:
- public:
-  colour colourfulObj;
-  device devObj;
-  log_class logObj;
-  baud baudObj;
-  newline newObj;
-};
-
-/******************-FUNCTIONS-*********************/
-
-/*********************-END-************************/
-
 #include "Final_Project.cpp"

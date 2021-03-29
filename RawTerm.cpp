@@ -8,7 +8,6 @@ int main() {
   return 0;
 }
 
-class_mem memory;
 void term() {
   device dev;
   dev.switch_dev(1);
