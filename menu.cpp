@@ -1,4 +1,5 @@
 #include "RawTerm.hpp"
+#include <filesystem>
 
 void menu_call();
 /********************-CLASS-**********************/
@@ -93,7 +94,9 @@ void log_class::disable_log() { log_generation_status = 0; }
 int log_class::get_log_status() { return log_generation_status; }
 void log_class::open_file() {
   if (open == 0) {
-    logan.open(print_date().c_str(), ios::out | ios::binary);
+    filesystem::create_directory("logs");
+    string log_filepath = "logs/" + print_date();
+    logan.open(log_filepath.c_str(), ios::out | ios::binary);
   }
   open++;
 }
