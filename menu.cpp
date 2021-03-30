@@ -118,7 +118,12 @@ class ip_file : public device {
 void ip_file::file_input() {
   char str[30];
 
+<<<<<<< HEAD
   while (1) {
+=======
+  while (cin.getline(str, 30, '\n')) {
+
+>>>>>>> 64c6f147f9b4a1e48ec448befb3fdbd834dc28eb
     if (timeObj.get_enable_status()) print_time();
 
     cin.getline(str, 30, '\n');
