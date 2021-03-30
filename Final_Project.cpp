@@ -5,6 +5,10 @@
 
 extern class_mem memory;
 void SwitchSub_menu(const char* m, int yy);
+
+// extern class_mem memory;
+void SwitchSub_menu(const MENU* m, const char* yy);
+
 /********************-CLASS-**********************/
 
 class SubMenu_Class {
@@ -141,10 +145,12 @@ class switch_class {
         break;
 
       case SubMenuObj.enable_time:
+        mvprintw(30, 0, "time_enable");
         memory.timeObj.enable_time();
         break;
 
       case SubMenuObj.disable_time:
+        mvprintw(31, 0, "time_disable");
         memory.timeObj.disable_time();
         break;
 
@@ -413,6 +419,7 @@ void SwitchSub_menu(const char* m, int yy) {
   if (!strcmp(m, "115200"))
     MENU_Obj.switch_ClassMenu(SubMenuObj.br115200);
 
+
   if ((!strcmp(m, "Enable")) && yy==1) {
     mvprintw(0, 0, "time_enable");
     MENU_Obj.switch_ClassMenu(SubMenuObj.enable_time);}
@@ -436,5 +443,24 @@ void SwitchSub_menu(const char* m, int yy) {
     MENU_Obj.switch_ClassMenu(SubMenuObj.disable_log);}
 
   refresh();
-    
+
+  if ((!strcmp(item_name(current_item(m)), "Enable")) &&
+      ((!strcmp(menu_sub, "Time Stamp"))))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.enable_time);
+  if ((!strcmp(item_name(current_item(m)), "Disable")) &&
+      ((!strcmp(menu_sub, "Time Stamp"))))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.disable_time);
+
+  /*
+  if ((!strcmp(item_name(current_item(m)), "Enable")) && (menu_sub == 3))
+    mvprintw(1, 0, "time_fdlfjsdfsdfass");
+  MENU_Obj.switch_ClassMenu(SubMenuObj.enable_nl);
+  if ((!strcmp(item_name(current_item(m)), "Disable")) && (menu_sub == 3))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.disable_nl);
+
+  if ((!strcmp(item_name(current_item(m)), "Enable")) && (menu_sub == 2))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.enable_log);
+  if ((!strcmp(item_name(current_item(m)), "Disable")) && (menu_sub == 2))
+    MENU_Obj.switch_ClassMenu(SubMenuObj.disable_log);
+    */
 }
