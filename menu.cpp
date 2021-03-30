@@ -1,5 +1,6 @@
 #include "RawTerm.hpp"
 #include <filesystem>
+namespace fs = std::filesystem;
 
 void menu_call();
 /********************-CLASS-**********************/
@@ -76,6 +77,7 @@ class log_class : public device {
   static int log_generation_status;
   static int open;
   ofstream logan;
+  int num_logs(const string&, const string&);
 
  protected:
  public:
@@ -88,14 +90,28 @@ class log_class : public device {
 /******************-FUNCTIONS-*********************/
 int log_class::open = 0;
 int log_class::log_generation_status = 0;
+int log_class::num_logs(const string& dir, const string& file) {
+  int file_count = 0;
+
+  for(auto& p : fs::directory_iterator(dir)) {
+    if (file.compare(0, file.size(), p.path().filename()))
+        file_count++;
+  }
+
+  return file_count;
+}
 
 void log_class::enable_log() { log_generation_status = 1; }
 void log_class::disable_log() { log_generation_status = 0; }
 int log_class::get_log_status() { return log_generation_status; }
 void log_class::open_file() {
   if (open == 0) {
-    filesystem::create_directory("logs");
-    string log_filepath = "logs/" + print_date();
+    const string LOGS_DIR = "logs";
+    string str_date = print_date();
+    fs::create_directory(LOGS_DIR);
+    fs::path log_filepath = LOGS_DIR;
+    int n = num_logs(LOGS_DIR, str_date);
+    log_filepath /= str_date + "_" + to_string(n);
     logan.open(log_filepath.c_str(), ios::out | ios::binary);
   }
   open++;
