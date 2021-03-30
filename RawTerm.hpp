@@ -14,7 +14,7 @@ using namespace std::chrono;
 
 void print_time(void);
 ostream& print_time(ostream& output);
-ostream& print_date(ostream& output);
+string print_date(void);
 
 //#include "Final_Project.cpp"
 #include "menu.cpp"

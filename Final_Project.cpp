@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-extern class_mem memory;
+// extern class_mem memory;
 void SwitchSub_menu(const MENU* m, const char* yy);
 /********************-CLASS-**********************/
 
@@ -141,10 +141,12 @@ class switch_class {
         break;
 
       case SubMenuObj.enable_time:
+        mvprintw(30, 0, "time_enable");
         memory.timeObj.enable_time();
         break;
 
       case SubMenuObj.disable_time:
+        mvprintw(31, 0, "time_disable");
         memory.timeObj.disable_time();
         break;
 
@@ -412,12 +414,10 @@ void SwitchSub_menu(const MENU* m, const char* menu_sub) {
 
   if ((!strcmp(item_name(current_item(m)), "Enable")) &&
       ((!strcmp(menu_sub, "Time Stamp"))))
-    mvprintw(0, 0, "time_enable");
-  MENU_Obj.switch_ClassMenu(SubMenuObj.enable_time);
+    MENU_Obj.switch_ClassMenu(SubMenuObj.enable_time);
   if ((!strcmp(item_name(current_item(m)), "Disable")) &&
       ((!strcmp(menu_sub, "Time Stamp"))))
-    mvprintw(0, 0, "time_disable");
-  MENU_Obj.switch_ClassMenu(SubMenuObj.disable_time);
+    MENU_Obj.switch_ClassMenu(SubMenuObj.disable_time);
 
   /*
   if ((!strcmp(item_name(current_item(m)), "Enable")) && (menu_sub == 3))
