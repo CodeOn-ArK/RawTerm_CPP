@@ -99,8 +99,13 @@ void log_class::open_file() {
 }
 void log_class::generate_log(char *str) {
   open_file();
-  if (timeObj.get_enable_status()) logan << print_time;  //*****TODO******//
-  logan << "\t" << str << endl;
+
+  if (timeObj.get_enable_status()) {
+    logan << print_time << "\t" << str << endl;
+  } else
+    logan << "\t\t" << str << endl;
+
+  // if (timeObj.get_enable_status()) logan << print_time;  //*****TODO******//
 }
 /*********************-END-************************/
 
@@ -119,7 +124,11 @@ void ip_file::file_input() {
   char str[30];
 
   while (1) {
-    if (timeObj.get_enable_status()) print_time();
+    if (timeObj.get_enable_status()) {
+      print_time();
+      cout << "\t";
+    } else
+      cout << "\t\t";
 
     cin.getline(str, 30, '\n');
 
