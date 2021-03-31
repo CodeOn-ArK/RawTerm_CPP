@@ -42,7 +42,7 @@ string print_date(void) {
   //  time(&time_now);
   timey = localtime(&time_now);
 
-  text << asctime(timey);
+  text << put_time(timey, "%b_%d_%Y");
   tempo = text.str();
 
   cout << tempo.c_str();
