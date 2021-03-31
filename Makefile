@@ -1,4 +1,4 @@
-CXXFLAGS=-Wall -Wextra -pedantic -std=c++14
+CXXFLAGS=-Wall -Wextra -pedantic -std=c++17
 LIBS=-lcurses -lmenu
 
 SRC=RawTerm.cpp
