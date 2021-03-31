@@ -152,6 +152,12 @@ void ip_file::file_input() {
 
     cin.getline(str, 30, '\n');
 
+    /* EXIT on EOF (aka ^D) */
+    if (cin.eof()) {
+      cout << endl;
+      exit(EXIT_SUCCESS);
+    }
+
     if (strcmp(str, "__MENU")) {
       write(str);
       if (logObj.get_log_status()) {
