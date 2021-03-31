@@ -94,7 +94,8 @@ int log_class::num_logs(const string& dir, const string& file) {
   int file_count = 0;
 
   for(auto& p : fs::directory_iterator(dir)) {
-    if (file.compare(0, file.size(), p.path().filename()))
+    string filename = p.path().filename();
+    if (!filename.compare(0, file.size(), file))
         file_count++;
   }
 
