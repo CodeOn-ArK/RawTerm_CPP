@@ -333,7 +333,7 @@ void setting(MENU* m, WINDOW* w) {
 
 void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int x_axis,
             int yy) {
-  int d, flag = 0;
+  int d;
 
   unpost_menu(main_menu);
   MENU* m = new_menu(it);
@@ -368,9 +368,8 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int x_axis,
           for (int i = 0; i < row; ++i) free_item(it[i]);
           free_menu(m);
           post_menu(main_menu);
-          flag = 1;
+          return;
         }
-        if (flag == 1) return;
         pos_menu_cursor(m);
     }
 }
