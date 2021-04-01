@@ -361,16 +361,13 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int x_axis,
           exit(EXIT_SUCCESS);
         }
         SwitchSub_menu(item_name(current_item(m)), yy);
-        if (!strncmp("Exit", item_name(current_item(m)), 4)) {
-          werase(w);
-          wrefresh(w);
-          unpost_menu(m);
-          for (int i = 0; i < row; ++i) free_item(it[i]);
-          free_menu(m);
-          post_menu(main_menu);
-          return;
-        }
-        pos_menu_cursor(m);
+        werase(w);
+        wrefresh(w);
+        unpost_menu(m);
+        for (int i = 0; i < row; ++i) free_item(it[i]);
+        free_menu(m);
+        post_menu(main_menu);
+        return;
     }
 }
 
