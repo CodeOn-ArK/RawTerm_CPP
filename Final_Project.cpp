@@ -361,6 +361,7 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int x_axis,
           exit(EXIT_SUCCESS);
         }
         SwitchSub_menu(item_name(current_item(m)), yy);
+      case 'q':
         werase(w);
         wrefresh(w);
         unpost_menu(m);
