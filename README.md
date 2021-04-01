@@ -12,6 +12,9 @@ The main C++ / OOP features that were aimed to be covered in this project are li
 
 ## Collaboration
 This project was made in collaboration with [@CodeOn-ArK (Saheb Panda)](https://github.com/CodeOn-ArK),
+
 [@aritra1911 (Aritra Sarkar)](https://github.com/aritra1911),
+
 [@Programish (Pushpendra Kumar)](https://github.com/Programish) and
+
 [@Saptarshi434 (Saptarshi Mondal)](https://github.com/Saptarshi434).
