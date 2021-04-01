@@ -32,10 +32,13 @@ void trans_rec_win(){
 	    if (ch == '\r') break;
             
 	  }*/
+	for(int j = 2;j <= 180;j++)
+		mvprintw(45,j,"_");
 	int i = 4;
+	move(47,19);
 	while (ch = getch()) {
 		if (ch == '\n'){
-			mvprintw(i,85,line.c_str());
+			mvprintw(i,2,line.c_str());
 			move(47,19);
 			clrtoeol();
 			i++;
@@ -44,13 +47,6 @@ void trans_rec_win(){
 		else line.push_back(ch);
 		if(line == "quit") break;
 	}
-	/*for(int i = 4;i <= 44;i++){
-		cin >> ch;
-	//	if(ch == "\r") break;
-		mvprintw(i,105,ch.c_str());
-		move(47,19);
-		clrtoeol();
-	}*/
 
 	getch();
 	endwin();
