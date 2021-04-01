@@ -34,17 +34,23 @@ int time_printing::get_enable_status() { return time_enable; }
 /********************-CLASS-**********************/
 class device : public menu {
  private:
+  int device_idx;
+
  protected:
   time_printing timeObj;
 
  public:
+  device();
   ofstream outy;
   void write(char *str);
   void display_menu();
   void switch_dev(int i);
+  int get_curr_dev();
 };
 /******************-FUNCTIONS-*********************/
+device::device() : device_idx(0) { }
 void device::switch_dev(int i) {
+  device_idx = i;
   switch (i) {
     case 0:
       if (outy) outy.close();
@@ -69,6 +75,7 @@ void device::switch_dev(int i) {
 }
 void device::display_menu() { cout << "device called display_menu"; }
 void device::write(char *str) { outy << str << endl; }
+int device::get_curr_dev() { return device_idx; }
 /*********************-END-************************/
 
 /********************-CLASS-**********************/
@@ -152,6 +159,12 @@ void ip_file::file_input() {
 
     cin.getline(str, 30, '\n');
 
+    /* EXIT on EOF (aka ^D) */
+    if (cin.eof()) {
+      cout << endl;
+      exit(EXIT_SUCCESS);
+    }
+
     if (strcmp(str, "__MENU")) {
       write(str);
       if (logObj.get_log_status()) {
@@ -169,6 +182,7 @@ void ip_file::display_menu() { cout << "device called display_menu"; }
 class baud {
  private:
   static int baud_status;
+  int baud_idx;
 
  protected:
  public:
@@ -176,6 +190,7 @@ class baud {
   void disable_baud();
   int get_baud_status();
   void switch_baud(int i);
+  int get_baud_idx();
 };
 /******************-FUNCTIONS-*********************/
 int baud::baud_status;
@@ -184,6 +199,7 @@ void baud::enable_baud() { baud_status = 1; }
 void baud::disable_baud() { baud_status = 0; }
 int baud::get_baud_status() { return baud_status; }
 void baud::switch_baud(int i) {
+  baud_idx = i;
   switch (i) {
     case 0:
       break;
@@ -193,6 +209,7 @@ void baud::switch_baud(int i) {
       break;
   }
 }
+int baud::get_baud_idx() { return baud_idx; }
 /*********************-END-************************/
 
 /********************-CLASS-**********************/

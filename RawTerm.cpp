@@ -1,9 +1,15 @@
 #include "RawTerm.hpp"
 
+#include "welcome.cpp"
+
+void wlkm();
 void term();
 void menu_call(void);
+
 int main() {
   system("clear");
+  wlkm();
+
   term();
   return 0;
 }
