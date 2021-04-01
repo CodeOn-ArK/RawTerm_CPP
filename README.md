@@ -1,6 +1,6 @@
 # RawTerm
 This is a Serial Terminal Emulator and is currently not portable to any other Operating System other than Linux. This
-C++ project was written as a final group project at the end of our Fouth Semester.
+C++ project was written as a final group project at the end of our Fouth Semester(2nd Year).
 
 ## Features Covered
 The main C++ / OOP features that were aimed to be covered in this project are listed below:
