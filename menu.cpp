@@ -1,6 +1,4 @@
 #include "RawTerm.hpp"
-#include <filesystem>
-namespace fs = std::filesystem;
 
 void menu_call();
 /********************-CLASS-**********************/
@@ -34,23 +32,17 @@ int time_printing::get_enable_status() { return time_enable; }
 /********************-CLASS-**********************/
 class device : public menu {
  private:
-  int device_idx;
-
  protected:
   time_printing timeObj;
 
  public:
-  device();
   ofstream outy;
   void write(char *str);
   void display_menu();
   void switch_dev(int i);
-  int get_curr_dev();
 };
 /******************-FUNCTIONS-*********************/
-device::device() : device_idx(0) { }
 void device::switch_dev(int i) {
-  device_idx = i;
   switch (i) {
     case 0:
       if (outy) outy.close();
@@ -75,7 +67,6 @@ void device::switch_dev(int i) {
 }
 void device::display_menu() { cout << "device called display_menu"; }
 void device::write(char *str) { outy << str << endl; }
-int device::get_curr_dev() { return device_idx; }
 /*********************-END-************************/
 
 /********************-CLASS-**********************/
@@ -84,7 +75,6 @@ class log_class : public device {
   static int log_generation_status;
   static int open;
   ofstream logan;
-  int num_logs(const string&, const string&);
 
  protected:
  public:
@@ -97,30 +87,13 @@ class log_class : public device {
 /******************-FUNCTIONS-*********************/
 int log_class::open = 0;
 int log_class::log_generation_status = 0;
-int log_class::num_logs(const string& dir, const string& file) {
-  int file_count = 0;
-
-  for(auto& p : fs::directory_iterator(dir)) {
-    string filename = p.path().filename();
-    if (!filename.compare(0, file.size(), file))
-        file_count++;
-  }
-
-  return file_count;
-}
 
 void log_class::enable_log() { log_generation_status = 1; }
 void log_class::disable_log() { log_generation_status = 0; }
 int log_class::get_log_status() { return log_generation_status; }
 void log_class::open_file() {
   if (open == 0) {
-    const string LOGS_DIR = "logs";
-    string str_date = print_date();
-    fs::create_directory(LOGS_DIR);
-    fs::path log_filepath = LOGS_DIR;
-    int n = num_logs(LOGS_DIR, str_date);
-    log_filepath /= str_date + "_" + to_string(n);
-    logan.open(log_filepath.c_str(), ios::out | ios::binary);
+    logan.open(print_date().c_str(), ios::out | ios::binary);
   }
   open++;
 }
@@ -182,7 +155,6 @@ void ip_file::display_menu() { cout << "device called display_menu"; }
 class baud {
  private:
   static int baud_status;
-  int baud_idx;
 
  protected:
  public:
@@ -190,7 +162,6 @@ class baud {
   void disable_baud();
   int get_baud_status();
   void switch_baud(int i);
-  int get_baud_idx();
 };
 /******************-FUNCTIONS-*********************/
 int baud::baud_status;
@@ -199,7 +170,6 @@ void baud::enable_baud() { baud_status = 1; }
 void baud::disable_baud() { baud_status = 0; }
 int baud::get_baud_status() { return baud_status; }
 void baud::switch_baud(int i) {
-  baud_idx = i;
   switch (i) {
     case 0:
       break;
@@ -209,7 +179,6 @@ void baud::switch_baud(int i) {
       break;
   }
 }
-int baud::get_baud_idx() { return baud_idx; }
 /*********************-END-************************/
 
 /********************-CLASS-**********************/
