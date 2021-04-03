@@ -48,6 +48,7 @@ void trans_rec_win(){
 			col = 0;
 			move(47, 20);
 		} else if (ch == KEY_BACKSPACE) {
+			if (!col) continue;
 			line.pop_back();
 			move(47, 20); clrtoeol();
 			mvprintw(47,20,line.c_str());
