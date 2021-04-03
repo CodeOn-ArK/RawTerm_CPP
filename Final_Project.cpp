@@ -200,8 +200,8 @@ ITEM* my_item[] = {
     new_item("Send Newline", " "),  new_item("EXIT Console", " "),
     new_item("EXIT MENU", " "),     NULL};
 ITEM* my_item1[] = {new_item("Yellow", " "), new_item("Blue", " "),
-                    new_item("Cyan", " "),   new_item("Red", " "),
-                    new_item("Green", " "),  new_item("Magenta", " "),
+                    new_item("Cyan", " "),   new_item("Green", " "),
+                    new_item("Red", " "),    new_item("Magenta", " "),
                     new_item("Exit", " "),   NULL};
 ITEM* my_item2[] = {new_item("ttyACM0", " "),
                     new_item("ttyACM1", " "),
@@ -219,9 +219,8 @@ ITEM* my_item5[] = {new_item("2400", " "), new_item("9600", " "),
 ITEM* my_item6[] = {new_item("Enable", " "), new_item("Disable", " "),
                     new_item("Exit", " "), NULL};
 
-int dev_item_map(int);
 void setting(MENU*, WINDOW*, int);
-void select(WINDOW*, MENU*, int, ITEM**, int, int, int = 0);
+void select(WINDOW*, MENU*, int, ITEM**, int, int = 0);
 
 void menu_call() {
   int i, c;
@@ -298,39 +297,24 @@ void menu_call() {
         }
 
         else if (!strncmp("Col", item_name(current_item(my_menu)), 3))
-          select(my_menu_win1, my_menu, 7, my_item1,
-                 memory.colourfulObj.return_colourStatus(), 16);
+          select(my_menu_win1, my_menu, 7, my_item1, 16);
 
         else if (!strncmp("Dev", item_name(current_item(my_menu)), 3))
-          select(my_menu_win2, my_menu, 6, my_item2,
-                 dev_item_map(memory.devObj.get_curr_dev()), 33);
+          select(my_menu_win2, my_menu, 6, my_item2, 33);
+
 #define time 1
         else if (!strncmp("Tim", item_name(current_item(my_menu)), 3))
-          select(my_menu_win3, my_menu, 3, my_item3,
-                 memory.timeObj.get_enable_status() ? 0 : 1, 50, time);
+          select(my_menu_win3, my_menu, 3, my_item3, 50, time);
 #define log 2
         else if (!strncmp("Gen", item_name(current_item(my_menu)), 3))
-          select(my_menu_win4, my_menu, 3, my_item4,
-                 memory.logObj.get_log_status() ? 0 : 1, 67, log);
+          select(my_menu_win4, my_menu, 3, my_item4, 67, log);
 #define newline 3
         else if (!strncmp("Send", item_name(current_item(my_menu)), 4))
-          select(my_menu_win6, my_menu, 3, my_item6,
-                 memory.newObj.get_nl_status() ? 0 : 1, 118, newline);
+          select(my_menu_win6, my_menu, 3, my_item6, 118, newline);
 
         else if (!strncmp("Baud", item_name(current_item(my_menu)), 4))
-          select(my_menu_win5, my_menu, 4, my_item5,
-                 memory.baudObj.get_baud_idx(), 101);
+          select(my_menu_win5, my_menu, 4, my_item5, 101);
     }
-}
-
-int dev_item_map(int dev_idx) {
-  switch (dev_idx) {
-    case 0: return 2;
-    case 1: return 3;
-    case 2: return 0;
-    case 3: return 1;
-  }
-  return -1;
 }
 
 void setting(MENU* m, WINDOW* w) {
@@ -347,8 +331,8 @@ void setting(MENU* m, WINDOW* w) {
   wrefresh(w);
 }
 
-void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int sel_idx,
-            int x_axis, int yy) {
+void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int x_axis,
+            int yy) {
   int d;
 
   unpost_menu(main_menu);
@@ -356,7 +340,6 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int sel_idx,
 
   w = newwin(4, 16, 4, x_axis);
   setting(m, w);
-  set_current_item(m, it[sel_idx]);
 
   while (d = wgetch(w)) switch (d) {
       case KEY_UP:
@@ -378,14 +361,16 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int sel_idx,
           exit(EXIT_SUCCESS);
         }
         SwitchSub_menu(item_name(current_item(m)), yy);
-      case 'q':
-        werase(w);
-        wrefresh(w);
-        unpost_menu(m);
-        for (int i = 0; i < row; ++i) free_item(it[i]);
-        free_menu(m);
-        post_menu(main_menu);
-        return;
+        if (!strncmp("Exit", item_name(current_item(m)), 4)) {
+          werase(w);
+          wrefresh(w);
+          unpost_menu(m);
+          for (int i = 0; i < row; ++i) free_item(it[i]);
+          free_menu(m);
+          post_menu(main_menu);
+          return;
+        }
+        pos_menu_cursor(m);
     }
 }
 

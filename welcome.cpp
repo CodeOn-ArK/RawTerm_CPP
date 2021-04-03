@@ -39,15 +39,5 @@ void wlkm() {
 
     if (ch == '\r') break;
   }
-
-  move(15,5);
-  clrtoeol();
-  move(20,60);
-  clrtoeol();
-  for(int i = 27;i <= 43;i += 2){
-	  move(i,10);
-	  clrtoeol();
-  }
-
   endwin();
 }
