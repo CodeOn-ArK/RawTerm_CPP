@@ -7,7 +7,9 @@ void trans_rec_win(){
 
 	initscr();
 	start_color();
-	echo();
+	cbreak();
+	noecho();
+	keypad(stdscr, TRUE);
 	
 	init_pair(1,COLOR_YELLOW,COLOR_BLACK);
 	for(int i = 2;i <= 45;i++)
@@ -23,7 +25,7 @@ void trans_rec_win(){
 	attroff(A_BOLD);
 	
 	refresh();
-	char ch ;
+	int ch ;
 	string line;
 	/*  while (1) {
 	    ch = cin.gets();
@@ -34,17 +36,28 @@ void trans_rec_win(){
 	  }*/
 	for(int j = 2;j <= 180;j++)
 		mvprintw(45,j,"_");
-	int i = 4;
-	move(47,19);
-	while (ch = getch()) {
+	int i = 4, col = 0;
+	move(47,20);
+	while (ch = wgetch(stdscr)) {
 		if (ch == '\n'){
 			mvprintw(i,2,line.c_str());
 			move(47,19);
 			clrtoeol();
 			i++;
 			line.clear();
+			col = 0;
+			move(47, 20);
+		} else if (ch == KEY_BACKSPACE) {
+			line.pop_back();
+			move(47, 20); clrtoeol();
+			mvprintw(47,20,line.c_str());
+			move(47, 20 + --col);
+		} else {
+			line.push_back(ch);
+			mvprintw(47,20,line.c_str());
+			move(47,20 + ++col);
 		}
-		else line.push_back(ch);
+
 		if(line == "quit") break;
 	}
 
