@@ -1,37 +1,36 @@
 #include <ncurses.h>
+
 #include <iostream>
 #include <string>
 using namespace std;
 
-void trans_rec_win(){
+void trans_rec_win() {
+  initscr();
+  start_color();
+  cbreak();
+  noecho();
+  keypad(stdscr, TRUE);
 
-	initscr();
-	start_color();
-	cbreak();
-	noecho();
-	keypad(stdscr, TRUE);
-	
-	init_pair(1,COLOR_YELLOW,COLOR_BLACK);
-	for(int i = 2;i <= 45;i++)
-	  mvprintw(i,95,"|");
-	attron(COLOR_PAIR(1));
-	attron(A_BOLD);
-	attron(A_STANDOUT);
-	mvprintw(1,45,"TX");
-	mvprintw(1,140,"RX");
-	attroff(A_STANDOUT);
-	attroff(COLOR_PAIR(1));
-	mvprintw(47,5,"Enter here -->");
-	attroff(A_BOLD);
-	
-	refresh();
-	int ch ;
-	string line;
-	/*  while (1) {
-	    ch = cin.gets();
-	    cout.put(ch);
+  init_pair(1, COLOR_YELLOW, COLOR_BLACK);
+  for (int i = 2; i <= 45; i++) mvprintw(i, 95, "|");
+  attron(COLOR_PAIR(1));
+  attron(A_BOLD);
+  attron(A_STANDOUT);
+  mvprintw(1, 45, "TX");
+  mvprintw(1, 140, "RX");
+  attroff(A_STANDOUT);
+  attroff(COLOR_PAIR(1));
+  mvprintw(47, 5, "Enter here -->");
+  attroff(A_BOLD);
 
-	    if (ch == '\r') break;
+  refresh();
+  int ch;
+  string line;
+  /*  while (1) {
+      ch = cin.gets();
+      cout.put(ch);
+
+      if (ch == '\r') break;
             
 	  }*/
 	for(int j = 2;j <= 180;j++)
@@ -59,16 +58,15 @@ void trans_rec_win(){
 			move(47,20 + ++col);
 		}
 
-		if(line == "quit") break;
-	}
+    if (line == "quit") break;
+  }
 
-	getch();
-	endwin();
+  getch();
+  endwin();
 }
 
-int main(){
-	
-	trans_rec_win();
-	
-	return 0;
-}	
+int main() {
+  trans_rec_win();
+
+  return 0;
+}
