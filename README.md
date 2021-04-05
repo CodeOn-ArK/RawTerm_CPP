@@ -7,6 +7,7 @@ The main C++ / OOP features that were aimed to be covered in this project are li
 - [x] Encapsulation in the form of Classes
 - [x] Inheritance
 - [x] File handling
+- [x] STL
 - [ ] Exception Handling
 - [ ] Templates
 
