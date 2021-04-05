@@ -4,7 +4,13 @@
 #include <string>
 using namespace std;
 
-void trans_rec_win() {
+void displayer();
+void input_display();
+void trans_rec_win();
+
+void trans_rec_win() { displayer(); }
+
+void displayer(void) {
   initscr();
   start_color();
   cbreak();
@@ -24,39 +30,36 @@ void trans_rec_win() {
   attroff(A_BOLD);
 
   refresh();
-  int ch;
-  string line;
-  /*  while (1) {
-      ch = cin.gets();
-      cout.put(ch);
+  for (int j = 2; j <= 180; j++) mvprintw(45, j, "_");
+  move(47, 20);
+  input_display();
+}
 
-      if (ch == '\r') break;
-            
-	  }*/
-	for(int j = 2;j <= 180;j++)
-		mvprintw(45,j,"_");
-	int i = 4, col = 0;
-	move(47,20);
-	while (ch = wgetch(stdscr)) {
-		if (ch == '\n'){
-			mvprintw(i,2,line.c_str());
-			move(47,19);
-			clrtoeol();
-			i++;
-			line.clear();
-			col = 0;
-			move(47, 20);
-		} else if (ch == KEY_BACKSPACE) {
-			if (!col) continue;
-			line.pop_back();
-			move(47, 20); clrtoeol();
-			mvprintw(47,20,line.c_str());
-			move(47, 20 + --col);
-		} else {
-			line.push_back(ch);
-			mvprintw(47,20,line.c_str());
-			move(47,20 + ++col);
-		}
+void input_display() {
+  string line;
+  int i = 4, col = 0;
+  int ch;
+  while (ch = wgetch(stdscr)) {
+    if (ch == '\n') {
+      mvprintw(i, 2, line.c_str());
+      move(47, 19);
+      clrtoeol();
+      i++;
+      line.clear();
+      col = 0;
+      move(47, 20);
+    } else if (ch == KEY_BACKSPACE) {
+      if (!col) continue;
+      line.pop_back();
+      move(47, 20);
+      clrtoeol();
+      mvprintw(47, 20, line.c_str());
+      move(47, 20 + --col);
+    } else {
+      line.push_back(ch);
+      mvprintw(47, 20, line.c_str());
+      move(47, 20 + ++col);
+    }
 
     if (line == "quit") break;
   }

@@ -1,5 +1,6 @@
-#include "RawTerm.hpp"
 #include <filesystem>
+
+#include "RawTerm.hpp"
 namespace fs = std::filesystem;
 
 void menu_call();
@@ -14,7 +15,7 @@ class menu {
 /*********************-END-************************/
 
 /********************-CLASS-**********************/
-class time_printing {
+class time_printing : public menu {
  private:
   static int time_enable;
 
@@ -48,7 +49,7 @@ class device : public menu {
   int get_curr_dev();
 };
 /******************-FUNCTIONS-*********************/
-device::device() : device_idx(0) { }
+device::device() : device_idx(0) {}
 void device::switch_dev(int i) {
   device_idx = i;
   switch (i) {
@@ -84,7 +85,7 @@ class log_class : public device {
   static int log_generation_status;
   static int open;
   ofstream logan;
-  int num_logs(const string&, const string&);
+  int num_logs(const string &, const string &);
 
  protected:
  public:
@@ -97,13 +98,12 @@ class log_class : public device {
 /******************-FUNCTIONS-*********************/
 int log_class::open = 0;
 int log_class::log_generation_status = 0;
-int log_class::num_logs(const string& dir, const string& file) {
+int log_class::num_logs(const string &dir, const string &file) {
   int file_count = 0;
 
-  for(auto& p : fs::directory_iterator(dir)) {
+  for (auto &p : fs::directory_iterator(dir)) {
     string filename = p.path().filename();
-    if (!filename.compare(0, file.size(), file))
-        file_count++;
+    if (!filename.compare(0, file.size(), file)) file_count++;
   }
 
   return file_count;
