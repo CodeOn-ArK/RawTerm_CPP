@@ -7,6 +7,7 @@ using namespace std;
 void displayer();
 void input_display();
 void trans_rec_win();
+void clear_lines();
 
 void trans_rec_win() { displayer(); }
 
@@ -42,17 +43,15 @@ void input_display() {
   while (ch = wgetch(stdscr)) {
     if (ch == '\n') {
       mvprintw(i, 2, line.c_str());
-      move(47, 19);
-      clrtoeol();
       i++;
+      clear_lines();
       line.clear();
       col = 0;
       move(47, 20);
     } else if (ch == KEY_BACKSPACE) {
       if (!col) continue;
       line.pop_back();
-      move(47, 20);
-      clrtoeol();
+      clear_lines();
       mvprintw(47, 20, line.c_str());
       move(47, 20 + --col);
     } else {
@@ -66,6 +65,15 @@ void input_display() {
 
   getch();
   endwin();
+}
+
+void clear_lines(void) {
+  move(47, 20);
+  clrtoeol();
+  move(48, 0);
+  clrtoeol();
+  move(49, 0);
+  clrtoeol();
 }
 
 int main() {
