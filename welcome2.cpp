@@ -1,5 +1,6 @@
 #include <ncurses.h>
 
+#include <cstring>
 #include <iostream>
 #include <string>
 using namespace std;
@@ -8,6 +9,7 @@ void displayer();
 void input_display();
 void trans_rec_win();
 void clear_lines();
+int truncater(string&, int);
 
 void trans_rec_win() { displayer(); }
 
@@ -42,7 +44,10 @@ void input_display() {
   int ch;
   while (ch = wgetch(stdscr)) {
     if (ch == '\n') {
-      mvprintw(i, 2, line.c_str());
+      if (line.size() < 20)
+        mvprintw(i, 2, line.c_str());
+      else
+        i = truncater(line, i);
       i++;
       clear_lines();
       line.clear();
@@ -74,6 +79,71 @@ void clear_lines(void) {
   clrtoeol();
   move(49, 0);
   clrtoeol();
+}
+
+/********************-CLASS-**********************/
+
+class conversion {
+ private:
+ protected:
+ public:
+  char* str;
+  char* partition[20];
+  int len, div_len, rem_len;
+  conversion() {
+    // str = new char*;
+    //*str = new char;
+    len = 0;
+  }
+
+  conversion(string& s) {
+    len = s.size();
+    div_len = len / 20;
+    rem_len = len % 20;
+    str = new char[len];
+    partition[0] = new char[20];
+    partition[1] = new char[20];
+    partition[2] = new char[20];
+
+    call_partition();
+    for (int i = 0; i < 2; i++) {
+      // str[i] = s[i];
+      // DON'T USE -->      strcat(partition[i], s.substr(20 * i, 20 * (i +
+      // 1)));
+    }
+    /*for (int i = 0; i < div_len; i++) {
+      *str = s.substr(i, 20);
+    }*/
+  }
+
+  void call_partition() {
+    for (int i = 0; i < div_len; i++) {
+      for (int j = 0; j < 20; j++) {
+        //*(partition[i]) = str[i];
+        strcat(*(partition[i]), str[i]);
+        partition[i]++;
+      }
+    }
+  }
+
+  void display() { cout << "\n" << str << "\t" << len; }
+};
+
+/******************-FUNCTIONS-*********************/
+
+/*********************-END-************************/
+
+int truncater(string& line, int start_col) {
+  int inc, col, size = line.size();
+
+  conversion classy(line);
+  inc = line.size() / 20;
+
+  for (int col = 0; col < inc; col++) {
+    // mvprintw(start_col + col, 0, classy.str[col]);  // line[20 * col + i]);
+  }
+
+  return inc;
 }
 
 int main() {
