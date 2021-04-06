@@ -5,13 +5,76 @@
 #include <string>
 using namespace std;
 
+/********************-CLASS-**********************/
+
+class conversion {
+ private:
+ protected:
+ public:
+  char* str;
+  char *partition[20], *head[20];
+  int len, div_len;
+
+  conversion();
+  conversion(string& s);
+  void call_partition();
+  void display(int start_col);
+};
+
+/******************-FUNCTIONS-*********************/
+conversion::conversion() {
+  str = new char;
+  len = 0;
+}
+
+conversion::conversion(string& s) {
+  len = s.size();
+  div_len = len / 90;
+  str = new char[len];
+  for (int i = 0; i < 20; i++) {
+    partition[i] = new char[90];
+    head[i] = partition[i];
+  }
+
+  for (int i = 0; i < len; i++) {
+    str[i] = s[i];
+  }
+  call_partition();
+}
+
+void conversion::call_partition() {
+  for (int i = 0; i < div_len + 1; i++) {
+    partition[i] = head[i];
+    for (int j = 0; j < 90; j++) {
+      *(partition[i]++) = str[90 * i + j];
+    }
+  }
+}
+
+void conversion::display(int start_col) {
+  for (int i = 0; i <= div_len; i++) {
+    partition[i] = head[i];
+    mvprintw(start_col + i, 2, partition[i]);
+  }
+}
+/*********************-END-************************/
+
 void displayer();
 void input_display();
 void trans_rec_win();
 void clear_lines();
 int truncater(string&, int);
 
-void trans_rec_win() { displayer(); }
+int main() {
+  trans_rec_win();
+
+  return 0;
+}
+
+void trans_rec_win() {
+  displayer();
+  input_display();
+}
 
 void displayer(void) {
   initscr();
@@ -35,7 +98,6 @@ void displayer(void) {
   refresh();
   for (int j = 2; j <= 180; j++) mvprintw(45, j, "_");
   move(47, 20);
-  input_display();
 }
 
 void input_display() {
@@ -81,56 +143,6 @@ void clear_lines(void) {
   clrtoeol();
 }
 
-/********************-CLASS-**********************/
-
-class conversion {
- private:
- protected:
- public:
-  char* str;
-  char *partition[20], *head[20];
-  int len, div_len;
-  conversion() {
-    str = new char;
-    len = 0;
-  }
-
-  conversion(string& s) {
-    len = s.size();
-    div_len = len / 90;
-    str = new char[len];
-    for (int i = 0; i < 20; i++) {
-      partition[i] = new char[90];
-      head[i] = partition[i];
-    }
-
-    for (int i = 0; i < len; i++) {
-      str[i] = s[i];
-    }
-    call_partition();
-  }
-
-  void call_partition() {
-    for (int i = 0; i < div_len + 1; i++) {
-      partition[i] = head[i];
-      for (int j = 0; j < 90; j++) {
-        *(partition[i]++) = str[90 * i + j];
-      }
-    }
-  }
-
-  void display(int start_col) {
-    for (int i = 0; i <= div_len; i++) {
-      partition[i] = head[i];
-      mvprintw(start_col + i, 2, partition[i]);
-    }
-  }
-};
-
-/******************-FUNCTIONS-*********************/
-
-/*********************-END-************************/
-
 int truncater(string& line, int start_col) {
   int inc;
 
@@ -141,10 +153,4 @@ int truncater(string& line, int start_col) {
   start_col += inc;
 
   return start_col;
-}
-
-int main() {
-  trans_rec_win();
-
-  return 0;
 }

@@ -151,6 +151,7 @@ void ip_file::file_input() {
   char str[30];
 
   while (1) {
+    /*
     if (timeObj.get_enable_status()) {
       print_time();
       cout << "\t";
@@ -159,7 +160,7 @@ void ip_file::file_input() {
 
     cin.getline(str, 30, '\n');
 
-    /* EXIT on EOF (aka ^D) */
+    EXIT on EOF (aka ^D)
     if (cin.eof()) {
       cout << endl;
       exit(EXIT_SUCCESS);
@@ -172,6 +173,7 @@ void ip_file::file_input() {
       }
     } else
       menu_call();
+    */
   }
 }
 void ip_file::display_menu() { cout << "device called display_menu"; }
