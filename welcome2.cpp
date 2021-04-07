@@ -3,8 +3,16 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+
+//#include "Final_Project.cpp"
 using namespace std;
 
+void displayer();
+void input_display();
+void trans_rec_win();
+void clear_lines();
+int truncater(string&, int);
+void menu_call();
 /********************-CLASS-**********************/
 
 class conversion {
@@ -57,19 +65,6 @@ void conversion::display(int start_col) {
     mvprintw(start_col + i, 2, partition[i]);
   }
 }
-/*********************-END-************************/
-
-void displayer();
-void input_display();
-void trans_rec_win();
-void clear_lines();
-int truncater(string&, int);
-
-int main() {
-  trans_rec_win();
-
-  return 0;
-}
 
 void trans_rec_win() {
   displayer();
@@ -105,7 +100,7 @@ void input_display() {
   int i = 4, col = 0;
   int ch;
   while (ch = wgetch(stdscr)) {
-    if (ch == '\n') {
+    if ((ch == '\n') && (line != "__MENU")) {
       if (line.size() < 90)
         mvprintw(i, 2, line.c_str());
       else
@@ -126,8 +121,10 @@ void input_display() {
       mvprintw(47, 20, line.c_str());
       move(47, 20 + ++col);
     }
-
-    if (line == "quit") break;
+    if (line == "__MENU") {
+      menu_call();
+    } else if (line == "quit")
+      break;
   }
 
   getch();

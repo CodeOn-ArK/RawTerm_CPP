@@ -1,6 +1,7 @@
 #include <filesystem>
 
 #include "RawTerm.hpp"
+#include "welcome2.cpp"
 namespace fs = std::filesystem;
 
 void menu_call();
@@ -151,6 +152,7 @@ void ip_file::file_input() {
   char str[30];
 
   while (1) {
+    trans_rec_win();
     /*
     if (timeObj.get_enable_status()) {
       print_time();
