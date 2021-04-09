@@ -1,4 +1,5 @@
 #include <ncurses.h>
+
 #include <cstring>
 #include <iostream>
 #include <string>
@@ -12,9 +13,6 @@ void trans_rec_win();
 void clear_lines();
 int truncater(string&, int);
 void menu_call();
-
-WINDOW* win;
-
 /********************-CLASS-**********************/
 
 class conversion {
@@ -80,36 +78,32 @@ void displayer(void) {
   noecho();
   keypad(stdscr, TRUE);
 
-  win = newwin(46, 200, 1, 1);
   init_pair(1, COLOR_YELLOW, COLOR_BLACK);
-  mvwvline(win, 1, 95, '|', 44);
-  wattron(win, COLOR_PAIR(1));
-  wattron(win, A_BOLD);
-  wattron(win, A_STANDOUT);
-  mvwprintw(win, 0, 45, "TX");
-  mvwprintw(win, 0, 140, "RX");
-  wattroff(win, A_STANDOUT);
-  wattroff(win, COLOR_PAIR(1));
+  for (int i = 2; i <= 45; i++) mvprintw(i, 95, "|");
+  attron(COLOR_PAIR(1));
+  attron(A_BOLD);
+  attron(A_STANDOUT);
+  mvprintw(1, 45, "TX");
+  mvprintw(1, 140, "RX");
+  attroff(A_STANDOUT);
+  attroff(COLOR_PAIR(1));
   mvprintw(47, 5, "Enter here -->");
-  wattroff(win, A_BOLD);
-  mvwhline(win, 45, 1, '-', 180);
+  attroff(A_BOLD);
 
   refresh();
-  wrefresh(win);
+  for (int j = 2; j <= 180; j++) mvprintw(45, j, "_");
   move(47, 20);
 }
 
 void input_display() {
   string line;
-  int i = 2, col = 0;
+  int i = 4, col = 0;
   int ch;
   while (ch = wgetch(stdscr)) {
-    if (ch == '\n') {
-      if (line.size() < 90) {
-        mvwprintw(win, i, 0, line.c_str());
-        wrefresh(win);
-        refresh();
-      } else
+    if ((ch == '\n') && (line != "__MENU")) {
+      if (line.size() < 90)
+        mvprintw(i, 2, line.c_str());
+      else
         i = truncater(line, i);
       i++;
       clear_lines();
@@ -122,20 +116,18 @@ void input_display() {
       clear_lines();
       mvprintw(47, 20, line.c_str());
       move(47, 20 + --col);
-    } else if (ch == KEY_F(1)) {
-        int x, y;
-        getyx(stdscr, y, x);
-        menu_call();
-        redrawwin(win);
-        wrefresh(win);
-        move(y, x);
     } else {
       line.push_back(ch);
       mvprintw(47, 20, line.c_str());
       move(47, 20 + ++col);
     }
+    if (line == "__MENU") {
+      menu_call();
+    } else if (line == "quit")
+      break;
   }
 
+  getch();
   endwin();
 }
 

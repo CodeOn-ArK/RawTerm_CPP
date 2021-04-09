@@ -229,6 +229,13 @@ void menu_call() {
   WINDOW *my_menu_win, *my_menu_win1, *my_menu_win2, *my_menu_win3,
       *my_menu_win4, *my_menu_win5, *my_menu_win6;
 
+  /* Initialize curses */
+  initscr();
+  start_color();
+  cbreak();
+  noecho();
+  keypad(stdscr, TRUE);
+
   memory.colourfulObj.change_clor_scheme(
       memory.colourfulObj.return_colourStatus());
   init_pair(2, COLOR_GREEN, COLOR_BLACK);
@@ -274,14 +281,15 @@ void menu_call() {
           unpost_menu(my_menu);
           for (int i = 0; i < 9; ++i) free_item(my_item[i]);
           free_menu(my_menu);
-          werase(my_menu_win);
-          wrefresh(my_menu_win);
+          endwin();
+          if (flag) system("clear");
           return;
         } else if (!strcmp(item_name(current_item(my_menu)), "EXIT Console")) {
           unpost_menu(my_menu);
           for (int i = 0; i < 9; ++i) free_item(my_item[i]);
           free_menu(my_menu);
           endwin();
+          system("clear");
           exit(EXIT_SUCCESS);
         } else if (!strcmp(item_name(current_item(my_menu)), "Clear Screen")) {
           mvprintw(20, 0, "Item selected is : %s",
