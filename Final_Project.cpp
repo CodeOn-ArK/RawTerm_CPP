@@ -276,6 +276,8 @@ void menu_call() {
           free_menu(my_menu);
           werase(my_menu_win);
           wrefresh(my_menu_win);
+          move(20, 0);
+          clrtoeol();
           return;
         } else if (!strcmp(item_name(current_item(my_menu)), "EXIT Console")) {
           unpost_menu(my_menu);

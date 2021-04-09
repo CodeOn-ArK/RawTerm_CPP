@@ -126,6 +126,7 @@ void input_display() {
         int x, y;
         getyx(stdscr, y, x);
         menu_call();
+        refresh();
         redrawwin(win);
         wrefresh(win);
         move(y, x);
