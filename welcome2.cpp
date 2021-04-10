@@ -8,7 +8,9 @@
 //#include "Final_Project.cpp"
 using namespace std;
 
-void displayer();
+void init_displayer();
+void displayer(void);
+void displayer(int, int, const string&);
 void input_display();
 void trans_rec_win();
 void clear_lines();
@@ -70,19 +72,22 @@ void conversion::display(int start_col) {
   }
 }
 
-void trans_rec_win() {
-  displayer();
-  input_display();
-}
-
-void displayer(void) {
+void init_displayer() {
   initscr();
   start_color();
   cbreak();
   noecho();
-  keypad(stdscr, TRUE);
+  win = newwin(49, 200, 1, 1);
+  keypad(win, TRUE);
+}
 
-  win = newwin(46, 200, 1, 1);
+void trans_rec_win() {
+  init_displayer();
+  displayer();
+  input_display();
+}
+
+void displayer() {
   init_pair(1, COLOR_YELLOW, COLOR_BLACK);
   mvwvline(win, 1, 95, '|', 44);
   wattron(win, COLOR_PAIR(1));
@@ -92,20 +97,28 @@ void displayer(void) {
   mvwprintw(win, 0, 140, "RX");
   wattroff(win, A_STANDOUT);
   wattroff(win, COLOR_PAIR(1));
-  mvprintw(47, 5, "Enter here -->");
-  wattroff(win, A_BOLD);
   mvwhline(win, 45, 1, '-', 180);
+  mvwprintw(win, 46, 5, "Enter here -->");
+  wattroff(win, A_BOLD);
 
   refresh();
   wrefresh(win);
-  move(47, 20);
+  wmove(win, 46, 20);
+}
+
+void displayer(int y, int x, const string& lin) {
+  displayer();
+  mvwprintw(win, 46, 20, lin.c_str());
+  refresh();
+  wrefresh(win);
+  wmove(win, y, x);
 }
 
 void input_display() {
   string line;
   int i = 2, col = 0;
   int ch;
-  while (ch = wgetch(stdscr)) {
+  while (ch = wgetch(win)) {
     if (ch == '\n') {
       if (line.size() < 90) {
         mvwprintw(win, i, 0, line.c_str());// line.substr(2,6));
@@ -117,25 +130,26 @@ void input_display() {
       clear_lines();
       line.clear();
       col = 0;
-      move(47, 20);
+      wmove(win, 46, 20);
     } else if (ch == KEY_BACKSPACE) {
       if (!col) continue;
       line.pop_back();
       clear_lines();
-      mvprintw(47, 20, line.c_str());
-      move(47, 20 + --col);
+      mvwprintw(win, 46, 20, line.c_str());
+      wmove(win, 46, 20 + --col);
     } else if (ch == KEY_F(1)) {
       int x, y;
-      getyx(stdscr, y, x);
-      menu_call();
-      refresh();
-      redrawwin(win);
+      getyx(win, y, x);
+      wclear(win);
       wrefresh(win);
-      move(y, x);
+      menu_call();
+      displayer(y, x, line);
+      refresh();
+      wrefresh(win);
     } else {
       line.push_back(ch);
-      mvprintw(47, 20, line.c_str());
-      move(47, 20 + ++col);
+      mvwprintw(win, 46, 20, line.c_str());
+      wmove(win, 46, 20 + ++col);
     }
   }
 
@@ -143,16 +157,16 @@ void input_display() {
 }
 
 void clear_lines(void) {
-  move(47, 20);
-  clrtoeol();
-  move(48, 0);
-  clrtoeol();
-  move(49, 0);
-  clrtoeol();
-  move(50, 0);
-  clrtoeol();
-  move(51, 0);
-  clrtoeol();
+  wmove(win, 46, 20);
+  wclrtoeol(win);
+  wmove(win, 47, 0);
+  wclrtoeol(win);
+  wmove(win, 48, 0);
+  wclrtoeol(win);
+  wmove(win, 49, 0);
+  wclrtoeol(win);
+  wmove(win, 50, 0);
+  wclrtoeol(win);
 }
 
 int truncater(string& line, int start_row) {
