@@ -1,4 +1,5 @@
 #include <ncurses.h>
+
 #include <cstring>
 #include <iostream>
 #include <string>
@@ -123,13 +124,13 @@ void input_display() {
       mvprintw(47, 20, line.c_str());
       move(47, 20 + --col);
     } else if (ch == KEY_F(1)) {
-        int x, y;
-        getyx(stdscr, y, x);
-        menu_call();
-        refresh();
-        redrawwin(win);
-        wrefresh(win);
-        move(y, x);
+      int x, y;
+      getyx(stdscr, y, x);
+      menu_call();
+      refresh();
+      redrawwin(win);
+      wrefresh(win);
+      move(y, x);
     } else {
       line.push_back(ch);
       mvprintw(47, 20, line.c_str());
@@ -146,6 +147,10 @@ void clear_lines(void) {
   move(48, 0);
   clrtoeol();
   move(49, 0);
+  clrtoeol();
+  move(50, 0);
+  clrtoeol();
+  move(51, 0);
   clrtoeol();
 }
 
