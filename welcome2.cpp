@@ -1,3 +1,4 @@
+//TODO : curs_border(3X) may be used later
 #include <ncurses.h>
 
 #include <cstring>
@@ -107,7 +108,7 @@ void input_display() {
   while (ch = wgetch(stdscr)) {
     if (ch == '\n') {
       if (line.size() < 90) {
-        mvwprintw(win, i, 0, line.c_str());
+        mvwprintw(win, i, 0, line.c_str());// line.substr(2,6));
         wrefresh(win);
         refresh();
       } else
@@ -154,14 +155,14 @@ void clear_lines(void) {
   clrtoeol();
 }
 
-int truncater(string& line, int start_col) {
+int truncater(string& line, int start_row) {
   int inc;
 
   conversion classy(line);
 
-  classy.display(start_col);
+  classy.display(start_row);
   inc = (line.size() / 90) + 1;
-  start_col += inc;
+  start_row += inc;
 
-  return start_col;
+  return start_row;
 }
