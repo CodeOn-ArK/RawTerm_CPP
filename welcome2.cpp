@@ -68,8 +68,10 @@ void conversion::call_partition() {
 void conversion::display(int start_col) {
   for (int i = 0; i <= div_len; i++) {
     partition[i] = head[i];
-    mvprintw(start_col + i, 2, partition[i]);
+    mvwprintw(win, start_col + i, 0, partition[i]);
   }
+  refresh();
+  wrefresh(win);
 }
 
 void init_displayer() {
@@ -77,7 +79,7 @@ void init_displayer() {
   start_color();
   cbreak();
   noecho();
-  win = newwin(49, 200, 1, 1);
+  win = newwin(51, 200, 1, 1);
   keypad(win, TRUE);
 }
 
@@ -122,8 +124,8 @@ void input_display() {
     if (ch == '\n') {
       if (line.size() < 90) {
         mvwprintw(win, i, 0, line.c_str());// line.substr(2,6));
-        wrefresh(win);
         refresh();
+        wrefresh(win);
       } else
         i = truncater(line, i);
       i++;
