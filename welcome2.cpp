@@ -85,6 +85,7 @@ void init_displayer() {
   noecho();
   win = newwin(51, 200, 1, 1);
   keypad(win, TRUE);
+  init_pair(1, COLOR_YELLOW, COLOR_BLACK);
 }
 
 void trans_rec_win() {
@@ -94,7 +95,6 @@ void trans_rec_win() {
 }
 
 void displayer() {
-  init_pair(1, COLOR_YELLOW, COLOR_BLACK);
   mvwvline(win, 1, 95, '|', 44);
   wattron(win, COLOR_PAIR(1));
   wattron(win, A_BOLD);
