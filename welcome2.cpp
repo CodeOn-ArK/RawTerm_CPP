@@ -18,6 +18,8 @@ void clear_lines();
 int truncater(const string&, int);
 void menu_call();
 
+const int TEXT_WIDTH = 94;
+
 WINDOW* win;
 vector<string> lines_buffer;
 
@@ -45,10 +47,10 @@ conversion::conversion() {
 
 conversion::conversion(const string& s) {
   len = s.size();
-  div_len = len / 90;
+  div_len = len / TEXT_WIDTH;
   str = new char[len + 1];  // std::string.size() doesn't account for the '\0' character
   for (int i = 0; i < 20; i++) {
-    partition[i] = new char[90];
+    partition[i] = new char[TEXT_WIDTH];
     head[i] = partition[i];
   }
 
@@ -62,8 +64,8 @@ conversion::conversion(const string& s) {
 void conversion::call_partition() {
   for (int i = 0; i < div_len + 1; i++) {
     partition[i] = head[i];
-    for (int j = 0; j < 90; j++) {
-      *(partition[i]++) = str[90 * i + j];
+    for (int j = 0; j < TEXT_WIDTH; j++) {
+      *(partition[i]++) = str[TEXT_WIDTH * i + j];
     }
   }
 }
@@ -132,7 +134,7 @@ void input_display() {
   lines_buffer.clear();
   while (ch = wgetch(win)) {
     if (ch == '\n') {
-      if (line.size() < 90) {
+      if (line.size() < TEXT_WIDTH) {
         lines_buffer.push_back(line);
         mvwprintw(win, i, 0, line.c_str());// line.substr(2,6));
         refresh();
@@ -188,7 +190,7 @@ int truncater(const string& line, int start_row) {
   conversion classy(line);
 
   classy.display(start_row);
-  inc = (line.size() / 90) + 1;
+  inc = (line.size() / TEXT_WIDTH) + 1;
   start_row += inc;
   lines_buffer.push_back(string());
 
