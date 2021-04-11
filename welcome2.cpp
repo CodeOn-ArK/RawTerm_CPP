@@ -4,6 +4,7 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+#include <vector>
 
 //#include "Final_Project.cpp"
 using namespace std;
@@ -14,10 +15,11 @@ void displayer(int, int, const string&);
 void input_display();
 void trans_rec_win();
 void clear_lines();
-int truncater(string&, int);
+int truncater(const string&, int);
 void menu_call();
 
 WINDOW* win;
+vector<string> lines_buffer;
 
 /********************-CLASS-**********************/
 
@@ -30,7 +32,7 @@ class conversion {
   int len, div_len;
 
   conversion();
-  conversion(string& s);
+  conversion(const string& s);
   void call_partition();
   void display(int start_col);
 };
@@ -41,10 +43,10 @@ conversion::conversion() {
   len = 0;
 }
 
-conversion::conversion(string& s) {
+conversion::conversion(const string& s) {
   len = s.size();
   div_len = len / 90;
-  str = new char[len];
+  str = new char[len + 1];  // std::string.size() doesn't account for the '\0' character
   for (int i = 0; i < 20; i++) {
     partition[i] = new char[90];
     head[i] = partition[i];
@@ -53,6 +55,7 @@ conversion::conversion(string& s) {
   for (int i = 0; i < len; i++) {
     str[i] = s[i];
   }
+  str[len] = '\0';  // C strings must end with a '\0'
   call_partition();
 }
 
@@ -68,6 +71,7 @@ void conversion::call_partition() {
 void conversion::display(int start_col) {
   for (int i = 0; i <= div_len; i++) {
     partition[i] = head[i];
+    lines_buffer.push_back(partition[i]);
     mvwprintw(win, start_col + i, 0, partition[i]);
   }
   refresh();
@@ -103,6 +107,11 @@ void displayer() {
   mvwprintw(win, 46, 5, "Enter here -->");
   wattroff(win, A_BOLD);
 
+  // Display any pending lines in lines_buffer
+  for (size_t i=0; i<lines_buffer.size(); i++) {
+      mvwprintw(win, i + 2, 0, lines_buffer[i].c_str());
+  }
+
   refresh();
   wrefresh(win);
   wmove(win, 46, 20);
@@ -120,9 +129,11 @@ void input_display() {
   string line;
   int i = 2, col = 0;
   int ch;
+  lines_buffer.clear();
   while (ch = wgetch(win)) {
     if (ch == '\n') {
       if (line.size() < 90) {
+        lines_buffer.push_back(line);
         mvwprintw(win, i, 0, line.c_str());// line.substr(2,6));
         refresh();
         wrefresh(win);
@@ -171,7 +182,7 @@ void clear_lines(void) {
   wclrtoeol(win);
 }
 
-int truncater(string& line, int start_row) {
+int truncater(const string& line, int start_row) {
   int inc;
 
   conversion classy(line);
@@ -179,6 +190,7 @@ int truncater(string& line, int start_row) {
   classy.display(start_row);
   inc = (line.size() / 90) + 1;
   start_row += inc;
+  lines_buffer.push_back(string());
 
   return start_row;
 }
