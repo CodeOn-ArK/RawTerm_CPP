@@ -77,7 +77,7 @@ class colour : public menu {
 };
 /******************-FUNCTIONS-*********************/
 
-int colour::markdown_colour = 1;
+int colour::markdown_colour = 0;
 /*********************-END-************************/
 
 void menu_call(void);
