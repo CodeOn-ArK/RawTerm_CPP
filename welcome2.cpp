@@ -111,7 +111,7 @@ void displayer() {
 
   // Display any pending lines in lines_buffer
   for (size_t i=0; i<lines_buffer.size(); i++) {
-      mvwprintw(win, i + 2, 0, lines_buffer[i].c_str());
+      mvwprintw(win, i + 1, 0, lines_buffer[i].c_str());
   }
 
   refresh();
@@ -129,7 +129,7 @@ void displayer(int y, int x, const string& lin) {
 
 void input_display() {
   string line;
-  int i = 2, col = 0;
+  int i = 1, col = 0;
   int ch;
   lines_buffer.clear();
   while (ch = wgetch(win)) {
