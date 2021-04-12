@@ -145,8 +145,8 @@ void input_display() {
   lines_buffer.clear();
   while (ch = wgetch(win)) {
     if (ch == '\n') {
-      if (flag) i = 3;
-      flag = 0;
+      // if (flag) i = 3;
+      // flag = 0;
       if (line.size() < TEXT_WIDTH) {
         string final_line;
 
