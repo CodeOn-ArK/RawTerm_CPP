@@ -12,7 +12,7 @@ The main C++ / OOP features that were aimed to be covered in this project are li
 - [ ] Templates
 
 ## Collaboration
-This project was made in collaboration with [@CodeOn-ArK (Saheb Panda)](https://github.com/CodeOn-ArK),
+This project was made in collaboration with [@CodeOn-ArK](https://github.com/CodeOn-ArK),
 
 [@aritra1911 (Aritra Sarkar)](https://github.com/aritra1911),
 
