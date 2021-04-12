@@ -26,7 +26,7 @@ extern time_printing timeObj;
 extern log_class logObj;
 extern int flag;
 
-const int TEXT_WIDTH = 94;
+const int TEXT_WIDTH = 78;
 
 WINDOW* win;
 vector<string> lines_buffer;
@@ -84,22 +84,25 @@ void conversion::call_partition() {
 }
 
 void conversion::display(int start_col) {
-  string time;
+  string final_line = "";
 
   if (timeObj.get_enable_status()) {
-    time = print_time();
-    mvwprintw(win, start_col, 0, time.c_str());  // line.substr(2,6));
-  }                                              // else
-     // mvwprintw(win, start_col, 15, line.c_str());  // line.substr(2,6));
+    final_line += print_time() + string(4, ' ');
+  } else {
+    final_line += string(16, ' ');
+  }
 
-  if (timeObj.get_enable_status()) lines_buffer.push_back(time.c_str());
   for (int i = 0; i <= div_len; i++) {
     partition[i] = head[i];
-    lines_buffer.push_back(partition[i]);
-    if (i == 0)
-      mvwprintw(win, start_col + i, 15, partition[i]);
-    else
-      mvwprintw(win, start_col + i, 0, partition[i]);
+    final_line += partition[i];
+    lines_buffer.push_back(final_line);
+
+    if (logObj.get_log_status()) {
+        logObj.generate_log(final_line.c_str());
+    }
+
+    mvwprintw(win, start_col + i, 0, final_line.c_str());
+    final_line = string(16, ' ');
   }
 
   refresh();
@@ -138,18 +141,9 @@ void displayer() {
   mvwprintw(win, 46, 5, "Enter here -->");
   wattroff(win, A_BOLD);
 
-  char msg[4];
-  // Display any pending lines in lines_buffer
-  if (!flag) {
-    for (size_t i = 0; i < lines_buffer.size(); i++) {
-      if (timeObj.get_enable_status() && i == 0) {
-        mvwprintw(win, i + 1, 15, lines_buffer[i].c_str());
-      } else {
-        sprintf(msg, "%d)", i);
-        mvwprintw(win, i + 1, 0, msg);
-        mvwprintw(win, i + 1, 3, lines_buffer[i].c_str());
-      }
-    }
+  for (size_t i = 0; i < lines_buffer.size(); i++) {
+      // (i + 1) to account for the RX and TX headers
+      mvwprintw(win, i + 1, 0, lines_buffer[i].c_str());
   }
 
   refresh();
@@ -172,27 +166,37 @@ void input_display() {
   lines_buffer.clear();
   while (ch = wgetch(win)) {
     if (ch == '\n') {
-      if (flag) i = 3;
-      flag = 0;
+      //if (flag) i = 3;
+      //flag = 0;
       if (line.size() < TEXT_WIDTH) {
-        if (logObj.get_log_status()) logObj.generate_log(line.c_str());
+        string final_line;
 
-        lines_buffer.push_back(line);
         if (timeObj.get_enable_status()) {
-          time = print_time();
-          mvwprintw(win, i, 0, time.c_str());   // line.substr(2,6));
-          mvwprintw(win, i, 15, line.c_str());  // line.substr(2,6));
-        } else
-          mvwprintw(win, i, 15, line.c_str());  // line.substr(2,6));
+          final_line = print_time() + string(4, ' ') + line;
+        } else {
+          final_line = string(16, ' ') + line;
+        }
+
+        if (logObj.get_log_status()) {
+            logObj.generate_log(final_line.c_str());
+        }
+
+        lines_buffer.push_back(final_line);
+        mvwprintw(win, i, 0, final_line.c_str());  // line.substr(2,6));
+
         refresh();
         wrefresh(win);
-      } else
+
+      } else {
         i = truncater(line, i);
+      }
+
       i++;
       clear_lines();
       line.clear();
       col = 0;
       wmove(win, 46, 20);
+
     } else if (ch == KEY_BACKSPACE) {
       if (!col) continue;
       line.pop_back();

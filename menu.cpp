@@ -127,13 +127,7 @@ void log_class::open_file() {
 }
 void log_class::generate_log(const char *str) {
   open_file();
-
-  if (timeObj.get_enable_status()) {
-    logan << print_time << "\t" << str << endl;
-  } else
-    logan << "\t\t" << str << endl;
-
-  if (timeObj.get_enable_status()) logan << print_time;  //*****TODO******//
+  logan << str << endl;
 }
 /*********************-END-************************/
 // TODO
