@@ -4,6 +4,7 @@
 #include <string.h>
 
 void SwitchSub_menu(const char* m, int yy);
+static int flag = 0;
 
 /********************-CLASS-**********************/
 class SubMenu_Class {
@@ -77,7 +78,7 @@ class colour : public menu {
 };
 /******************-FUNCTIONS-*********************/
 
-int colour::markdown_colour = 1;
+int colour::markdown_colour = 0;
 /*********************-END-************************/
 
 void menu_call(void);
@@ -229,13 +230,6 @@ void menu_call() {
   WINDOW *my_menu_win, *my_menu_win1, *my_menu_win2, *my_menu_win3,
       *my_menu_win4, *my_menu_win5, *my_menu_win6;
 
-  /* Initialize curses */
-  initscr();
-  start_color();
-  cbreak();
-  noecho();
-  keypad(stdscr, TRUE);
-
   memory.colourfulObj.change_clor_scheme(
       memory.colourfulObj.return_colourStatus());
   init_pair(2, COLOR_GREEN, COLOR_BLACK);
@@ -258,10 +252,9 @@ void menu_call() {
   set_menu_sub(my_menu, derwin(my_menu_win, 0, 0, 2, 1));
   set_menu_mark(my_menu, " * ");
 
-  static int flag = 0;
   /* Post the menu */
-  mvprintw(LINES - 3, 0, "Press <ENTER> to see the option selected");
-  mvprintw(LINES - 2, 0, "Up,Down,Left & Right arrow keys to navigate ");
+  mvprintw(LINES - 3, 3, "Press <ENTER> to see the option selected");
+  mvprintw(LINES - 2, 3, "Up,Down,Left & Right arrow keys to navigate ");
   post_menu(my_menu);
   refresh();
   wrefresh(my_menu_win);
@@ -281,15 +274,17 @@ void menu_call() {
           unpost_menu(my_menu);
           for (int i = 0; i < 9; ++i) free_item(my_item[i]);
           free_menu(my_menu);
-          endwin();
-          if (flag) system("clear");
+          werase(my_menu_win);
+          wrefresh(my_menu_win);
+
+          move(20, 0);
+          clrtoeol();
           return;
         } else if (!strcmp(item_name(current_item(my_menu)), "EXIT Console")) {
           unpost_menu(my_menu);
           for (int i = 0; i < 9; ++i) free_item(my_item[i]);
           free_menu(my_menu);
           endwin();
-          system("clear");
           exit(EXIT_SUCCESS);
         } else if (!strcmp(item_name(current_item(my_menu)), "Clear Screen")) {
           mvprintw(20, 0, "Item selected is : %s",
@@ -304,10 +299,10 @@ void menu_call() {
         else if (!strncmp("Dev", item_name(current_item(my_menu)), 3))
           select(my_menu_win2, my_menu, 6, my_item2,
                  dev_item_map(memory.devObj.get_curr_dev()), 33);
-#define time 1
+#define timeo 1
         else if (!strncmp("Tim", item_name(current_item(my_menu)), 3))
           select(my_menu_win3, my_menu, 3, my_item3,
-                 memory.timeObj.get_enable_status() ? 0 : 1, 50, time);
+                 memory.timeObj.get_enable_status() ? 0 : 1, 50, timeo);
 #define log 2
         else if (!strncmp("Gen", item_name(current_item(my_menu)), 3))
           select(my_menu_win4, my_menu, 3, my_item4,
@@ -325,10 +320,14 @@ void menu_call() {
 
 int dev_item_map(int dev_idx) {
   switch (dev_idx) {
-    case 0: return 2;
-    case 1: return 3;
-    case 2: return 0;
-    case 3: return 1;
+    case 0:
+      return 2;
+    case 1:
+      return 3;
+    case 2:
+      return 0;
+    case 3:
+      return 1;
   }
   return -1;
 }
@@ -374,7 +373,6 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int sel_idx,
          *TODOO
          */
         if (!strcmp(item_name(current_item(m)), "EXIT Console")) {
-          mvprintw(10, 0, "console exiting");
           exit(EXIT_SUCCESS);
         }
         SwitchSub_menu(item_name(current_item(m)), yy);
@@ -387,6 +385,8 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int sel_idx,
         post_menu(main_menu);
         return;
     }
+
+  mvprintw(20, 20, "end_of_line");
 }
 
 void SwitchSub_menu(const char* m, int yy) {

@@ -1,7 +1,10 @@
+#ifndef MENU_CPP
+#define MENU_CPP
+
 #include "RawTerm.hpp"
-#include <filesystem>
 namespace fs = std::filesystem;
 
+void trans_rec_win();
 void menu_call();
 /********************-CLASS-**********************/
 class menu {
@@ -14,7 +17,7 @@ class menu {
 /*********************-END-************************/
 
 /********************-CLASS-**********************/
-class time_printing {
+class time_printing : public menu {
  private:
   static int time_enable;
 
@@ -31,14 +34,13 @@ void time_printing::disable_time() { time_enable = 0; }
 int time_printing::get_enable_status() { return time_enable; }
 /*********************-END-************************/
 
+time_printing timeObj;
 /********************-CLASS-**********************/
 class device : public menu {
  private:
   int device_idx;
 
  protected:
-  time_printing timeObj;
-
  public:
   device();
   ofstream outy;
@@ -48,7 +50,7 @@ class device : public menu {
   int get_curr_dev();
 };
 /******************-FUNCTIONS-*********************/
-device::device() : device_idx(0) { }
+device::device() : device_idx(0) {}
 void device::switch_dev(int i) {
   device_idx = i;
   switch (i) {
@@ -84,7 +86,7 @@ class log_class : public device {
   static int log_generation_status;
   static int open;
   ofstream logan;
-  int num_logs(const string&, const string&);
+  int num_logs(const string &, const string &);
 
  protected:
  public:
@@ -92,18 +94,17 @@ class log_class : public device {
   void disable_log();
   int get_log_status();
   void open_file();
-  void generate_log(char *str);
+  void generate_log(const char *str);
 };
 /******************-FUNCTIONS-*********************/
 int log_class::open = 0;
 int log_class::log_generation_status = 0;
-int log_class::num_logs(const string& dir, const string& file) {
+int log_class::num_logs(const string &dir, const string &file) {
   int file_count = 0;
 
-  for(auto& p : fs::directory_iterator(dir)) {
+  for (auto &p : fs::directory_iterator(dir)) {
     string filename = p.path().filename();
-    if (!filename.compare(0, file.size(), file))
-        file_count++;
+    if (!filename.compare(0, file.size(), file)) file_count++;
   }
 
   return file_count;
@@ -124,23 +125,16 @@ void log_class::open_file() {
   }
   open++;
 }
-void log_class::generate_log(char *str) {
+void log_class::generate_log(const char *str) {
   open_file();
-
-  if (timeObj.get_enable_status()) {
-    logan << print_time << "\t" << str << endl;
-  } else
-    logan << "\t\t" << str << endl;
-
-  // if (timeObj.get_enable_status()) logan << print_time;  //*****TODO******//
+  logan << str << endl;
 }
 /*********************-END-************************/
-
+// TODO
+log_class logObj;
 /********************-CLASS-**********************/
 class ip_file : public device {
  private:
-  log_class logObj;
-
  protected:
  public:
   void file_input();
@@ -148,31 +142,30 @@ class ip_file : public device {
 };
 /******************-FUNCTIONS-*********************/
 void ip_file::file_input() {
-  char str[30];
+  trans_rec_win();
+  /*
+  if (timeObj.get_enable_status()) {
+    print_time();
+    cout << "\t";
+  } else
+    cout << "\t\t";
 
-  while (1) {
-    if (timeObj.get_enable_status()) {
-      print_time();
-      cout << "\t";
-    } else
-      cout << "\t\t";
+  cin.getline(str, 30, '\n');
 
-    cin.getline(str, 30, '\n');
-
-    /* EXIT on EOF (aka ^D) */
-    if (cin.eof()) {
-      cout << endl;
-      exit(EXIT_SUCCESS);
-    }
-
-    if (strcmp(str, "__MENU")) {
-      write(str);
-      if (logObj.get_log_status()) {
-        logObj.generate_log(str);
-      }
-    } else
-      menu_call();
+  EXIT on EOF (aka ^D)
+  if (cin.eof()) {
+    cout << endl;
+    exit(EXIT_SUCCESS);
   }
+
+  if (strcmp(str, "__MENU")) {
+    write(str);
+    if (logObj.get_log_status()) {
+      logObj.generate_log(str);
+    }
+  } else
+    menu_call();
+  */
 }
 void ip_file::display_menu() { cout << "device called display_menu"; }
 /*********************-END-************************/
@@ -232,3 +225,4 @@ int newline::get_nl_status(void) { return newline_status; }
 /*********************-END-************************/
 
 #include "Final_Project.cpp"
+#endif  // MENU_CPP
