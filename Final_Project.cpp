@@ -253,8 +253,8 @@ void menu_call() {
   set_menu_mark(my_menu, " * ");
 
   /* Post the menu */
-  mvprintw(LINES - 3, 0, "Press <ENTER> to see the option selected");
-  mvprintw(LINES - 2, 0, "Up,Down,Left & Right arrow keys to navigate ");
+  mvprintw(LINES - 3, 3, "Press <ENTER> to see the option selected");
+  mvprintw(LINES - 2, 3, "Up,Down,Left & Right arrow keys to navigate ");
   post_menu(my_menu);
   refresh();
   wrefresh(my_menu_win);
