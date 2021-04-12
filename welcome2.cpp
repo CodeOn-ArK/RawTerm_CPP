@@ -1,4 +1,4 @@
-//TODO : curs_border(3X) may be used later
+// TODO : curs_border(3X) may be used later
 #include <ncurses.h>
 
 #include <cstring>
@@ -48,7 +48,9 @@ conversion::conversion() {
 conversion::conversion(const string& s) {
   len = s.size();
   div_len = len / TEXT_WIDTH;
-  str = new char[len + 1];  // std::string.size() doesn't account for the '\0' character
+  str =
+      new char[len +
+               1];  // std::string.size() doesn't account for the '\0' character
   for (int i = 0; i < 20; i++) {
     partition[i] = new char[TEXT_WIDTH];
     head[i] = partition[i];
@@ -110,8 +112,8 @@ void displayer() {
   wattroff(win, A_BOLD);
 
   // Display any pending lines in lines_buffer
-  for (size_t i=0; i<lines_buffer.size(); i++) {
-      mvwprintw(win, i + 1, 0, lines_buffer[i].c_str());
+  for (size_t i = 0; i < lines_buffer.size(); i++) {
+    mvwprintw(win, i + 1, 0, lines_buffer[i].c_str());
   }
 
   refresh();
@@ -136,7 +138,7 @@ void input_display() {
     if (ch == '\n') {
       if (line.size() < TEXT_WIDTH) {
         lines_buffer.push_back(line);
-        mvwprintw(win, i, 0, line.c_str());// line.substr(2,6));
+        mvwprintw(win, i, 0, line.c_str());  // line.substr(2,6));
         refresh();
         wrefresh(win);
       } else
