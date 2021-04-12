@@ -20,7 +20,7 @@ string print_time(void) {
   stringstream text;
 
   timey = localtime(&time_now);
-  text << put_time(timey, "%T") << setfill('0') << setw(3) << millisecs.count();
+  text << put_time(timey, "%T.") << setfill('0') << setw(3) << millisecs.count();
 
   tempo = text.str();
 
