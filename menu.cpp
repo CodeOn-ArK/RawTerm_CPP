@@ -94,7 +94,7 @@ class log_class : public device {
   void disable_log();
   int get_log_status();
   void open_file();
-  void generate_log(char *str);
+  void generate_log(const char *str);
 };
 /******************-FUNCTIONS-*********************/
 int log_class::open = 0;
@@ -125,7 +125,7 @@ void log_class::open_file() {
   }
   open++;
 }
-void log_class::generate_log(char *str) {
+void log_class::generate_log(const char *str) {
   open_file();
 
   if (timeObj.get_enable_status()) {
@@ -133,15 +133,14 @@ void log_class::generate_log(char *str) {
   } else
     logan << "\t\t" << str << endl;
 
-  // if (timeObj.get_enable_status()) logan << print_time;  //*****TODO******//
+  if (timeObj.get_enable_status()) logan << print_time;  //*****TODO******//
 }
 /*********************-END-************************/
-
+// TODO
+log_class logObj;
 /********************-CLASS-**********************/
 class ip_file : public device {
  private:
-  log_class logObj;
-
  protected:
  public:
   void file_input();
@@ -149,34 +148,30 @@ class ip_file : public device {
 };
 /******************-FUNCTIONS-*********************/
 void ip_file::file_input() {
-  char str[30];
+  trans_rec_win();
+  /*
+  if (timeObj.get_enable_status()) {
+    print_time();
+    cout << "\t";
+  } else
+    cout << "\t\t";
 
-  while (1) {
-    trans_rec_win();
-    /*
-    if (timeObj.get_enable_status()) {
-      print_time();
-      cout << "\t";
-    } else
-      cout << "\t\t";
+  cin.getline(str, 30, '\n');
 
-    cin.getline(str, 30, '\n');
-
-    EXIT on EOF (aka ^D)
-    if (cin.eof()) {
-      cout << endl;
-      exit(EXIT_SUCCESS);
-    }
-
-    if (strcmp(str, "__MENU")) {
-      write(str);
-      if (logObj.get_log_status()) {
-        logObj.generate_log(str);
-      }
-    } else
-      menu_call();
-    */
+  EXIT on EOF (aka ^D)
+  if (cin.eof()) {
+    cout << endl;
+    exit(EXIT_SUCCESS);
   }
+
+  if (strcmp(str, "__MENU")) {
+    write(str);
+    if (logObj.get_log_status()) {
+      logObj.generate_log(str);
+    }
+  } else
+    menu_call();
+  */
 }
 void ip_file::display_menu() { cout << "device called display_menu"; }
 /*********************-END-************************/

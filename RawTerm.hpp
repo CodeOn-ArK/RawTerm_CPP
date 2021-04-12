@@ -24,8 +24,8 @@ void input_display();
 void trans_rec_win();
 void clear_lines();
 int truncater(const string&, int);
-void print_time(void);
-ostream& print_time(ostream& output);
+string print_time(void);
+// ostream& print_time(ostream& output);
 string print_date(void);
 
 //#include "Final_Project.cpp"

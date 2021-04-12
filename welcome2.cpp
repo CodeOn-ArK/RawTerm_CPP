@@ -23,6 +23,8 @@ void menu_call();
 
 #include "RawTerm.hpp"
 extern time_printing timeObj;
+extern log_class logObj;
+extern int flag;
 
 const int TEXT_WIDTH = 94;
 
@@ -73,17 +75,33 @@ void conversion::call_partition() {
   for (int i = 0; i < div_len + 1; i++) {
     partition[i] = head[i];
     for (int j = 0; j < TEXT_WIDTH; j++) {
+      //  if (timeObj.get_enable_status() && j == 0)
+      //  *(partition[i]++) = str[(TEXT_WIDTH - 15) * i + j];
+      // else
       *(partition[i]++) = str[TEXT_WIDTH * i + j];
     }
   }
 }
 
 void conversion::display(int start_col) {
+  string time;
+
+  if (timeObj.get_enable_status()) {
+    time = print_time();
+    mvwprintw(win, start_col, 0, time.c_str());  // line.substr(2,6));
+  }                                              // else
+     // mvwprintw(win, start_col, 15, line.c_str());  // line.substr(2,6));
+
+  if (timeObj.get_enable_status()) lines_buffer.push_back(time.c_str());
   for (int i = 0; i <= div_len; i++) {
     partition[i] = head[i];
     lines_buffer.push_back(partition[i]);
-    mvwprintw(win, start_col + i, 0, partition[i]);
+    if (i == 0)
+      mvwprintw(win, start_col + i, 15, partition[i]);
+    else
+      mvwprintw(win, start_col + i, 0, partition[i]);
   }
+
   refresh();
   wrefresh(win);
 }
@@ -114,12 +132,24 @@ void displayer() {
   wattroff(win, A_STANDOUT);
   wattroff(win, COLOR_PAIR(1));
   mvwhline(win, 45, 1, '-', 180);
+  wmove(win, 46, 0);
+  wclrtoeol(win);
+  clear_lines();
   mvwprintw(win, 46, 5, "Enter here -->");
   wattroff(win, A_BOLD);
 
+  char msg[4];
   // Display any pending lines in lines_buffer
-  for (size_t i = 0; i < lines_buffer.size(); i++) {
-    mvwprintw(win, i + 1, 0, lines_buffer[i].c_str());
+  if (!flag) {
+    for (size_t i = 0; i < lines_buffer.size(); i++) {
+      if (timeObj.get_enable_status() && i == 0) {
+        mvwprintw(win, i + 1, 15, lines_buffer[i].c_str());
+      } else {
+        sprintf(msg, "%d)", i);
+        mvwprintw(win, i + 1, 0, msg);
+        mvwprintw(win, i + 1, 3, lines_buffer[i].c_str());
+      }
+    }
   }
 
   refresh();
@@ -142,11 +172,18 @@ void input_display() {
   lines_buffer.clear();
   while (ch = wgetch(win)) {
     if (ch == '\n') {
+      if (flag) i = 3;
+      flag = 0;
       if (line.size() < TEXT_WIDTH) {
+        if (logObj.get_log_status()) logObj.generate_log(line.c_str());
+
         lines_buffer.push_back(line);
         if (timeObj.get_enable_status()) {
-        }
-        mvwprintw(win, i, 0, line.c_str());  // line.substr(2,6));
+          time = print_time();
+          mvwprintw(win, i, 0, time.c_str());   // line.substr(2,6));
+          mvwprintw(win, i, 15, line.c_str());  // line.substr(2,6));
+        } else
+          mvwprintw(win, i, 15, line.c_str());  // line.substr(2,6));
         refresh();
         wrefresh(win);
       } else

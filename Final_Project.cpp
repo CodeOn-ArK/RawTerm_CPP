@@ -4,6 +4,7 @@
 #include <string.h>
 
 void SwitchSub_menu(const char* m, int yy);
+static int flag = 0;
 
 /********************-CLASS-**********************/
 class SubMenu_Class {
@@ -251,7 +252,6 @@ void menu_call() {
   set_menu_sub(my_menu, derwin(my_menu_win, 0, 0, 2, 1));
   set_menu_mark(my_menu, " * ");
 
-  static int flag = 0;
   /* Post the menu */
   mvprintw(LINES - 3, 0, "Press <ENTER> to see the option selected");
   mvprintw(LINES - 2, 0, "Up,Down,Left & Right arrow keys to navigate ");
@@ -276,6 +276,7 @@ void menu_call() {
           free_menu(my_menu);
           werase(my_menu_win);
           wrefresh(my_menu_win);
+
           move(20, 0);
           clrtoeol();
           return;
@@ -372,7 +373,6 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int sel_idx,
          *TODOO
          */
         if (!strcmp(item_name(current_item(m)), "EXIT Console")) {
-          mvprintw(10, 0, "console exiting");
           exit(EXIT_SUCCESS);
         }
         SwitchSub_menu(item_name(current_item(m)), yy);
@@ -385,6 +385,8 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int sel_idx,
         post_menu(main_menu);
         return;
     }
+
+  mvprintw(20, 20, "end_of_line");
 }
 
 void SwitchSub_menu(const char* m, int yy) {
