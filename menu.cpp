@@ -1,9 +1,10 @@
-#include <filesystem>
+#ifndef MENU_CPP
+#define MENU_CPP
 
 #include "RawTerm.hpp"
-#include "welcome2.cpp"
 namespace fs = std::filesystem;
 
+void trans_rec_win();
 void menu_call();
 /********************-CLASS-**********************/
 class menu {
@@ -33,14 +34,13 @@ void time_printing::disable_time() { time_enable = 0; }
 int time_printing::get_enable_status() { return time_enable; }
 /*********************-END-************************/
 
+time_printing timeObj;
 /********************-CLASS-**********************/
 class device : public menu {
  private:
   int device_idx;
 
  protected:
-  time_printing timeObj;
-
  public:
   device();
   ofstream outy;
@@ -236,3 +236,4 @@ int newline::get_nl_status(void) { return newline_status; }
 /*********************-END-************************/
 
 #include "Final_Project.cpp"
+#endif  // MENU_CPP

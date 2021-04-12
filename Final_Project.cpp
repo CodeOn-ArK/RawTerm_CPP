@@ -298,10 +298,10 @@ void menu_call() {
         else if (!strncmp("Dev", item_name(current_item(my_menu)), 3))
           select(my_menu_win2, my_menu, 6, my_item2,
                  dev_item_map(memory.devObj.get_curr_dev()), 33);
-#define time 1
+#define timeo 1
         else if (!strncmp("Tim", item_name(current_item(my_menu)), 3))
           select(my_menu_win3, my_menu, 3, my_item3,
-                 memory.timeObj.get_enable_status() ? 0 : 1, 50, time);
+                 memory.timeObj.get_enable_status() ? 0 : 1, 50, timeo);
 #define log 2
         else if (!strncmp("Gen", item_name(current_item(my_menu)), 3))
           select(my_menu_win4, my_menu, 3, my_item4,
@@ -319,10 +319,14 @@ void menu_call() {
 
 int dev_item_map(int dev_idx) {
   switch (dev_idx) {
-    case 0: return 2;
-    case 1: return 3;
-    case 2: return 0;
-    case 3: return 1;
+    case 0:
+      return 2;
+    case 1:
+      return 3;
+    case 2:
+      return 0;
+    case 3:
+      return 1;
   }
   return -1;
 }

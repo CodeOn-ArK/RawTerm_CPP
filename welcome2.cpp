@@ -1,4 +1,4 @@
-// TODO : curs_border(3X) may be used later
+/*TODO : curs_border(3X) may be used later
 #include <ncurses.h>
 
 #include <cstring>
@@ -17,6 +17,12 @@ void trans_rec_win();
 void clear_lines();
 int truncater(const string&, int);
 void menu_call();
+*/
+#ifndef WELCOME2_CPP
+#define WELCOME2_CPP
+
+#include "RawTerm.hpp"
+extern time_printing timeObj;
 
 const int TEXT_WIDTH = 94;
 
@@ -130,7 +136,7 @@ void displayer(int y, int x, const string& lin) {
 }
 
 void input_display() {
-  string line;
+  string line, time;
   int i = 1, col = 0;
   int ch;
   lines_buffer.clear();
@@ -138,6 +144,8 @@ void input_display() {
     if (ch == '\n') {
       if (line.size() < TEXT_WIDTH) {
         lines_buffer.push_back(line);
+        if (timeObj.get_enable_status()) {
+        }
         mvwprintw(win, i, 0, line.c_str());  // line.substr(2,6));
         refresh();
         wrefresh(win);
@@ -198,3 +206,5 @@ int truncater(const string& line, int start_row) {
 
   return start_row;
 }
+
+#endif
