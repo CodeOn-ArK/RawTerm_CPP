@@ -1,7 +1,10 @@
 #ifndef RAWTERM_HPP
 #define RAWTERM_HPP
 
+#include <menu.h>
 #include <ncurses.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include <chrono>
 #include <cstdlib>
@@ -25,10 +28,8 @@ void trans_rec_win();
 void clear_lines();
 int truncater(const string&, int);
 string print_time(void);
-// ostream& print_time(ostream& output);
 string print_date(void);
 
-//#include "Final_Project.cpp"
 #include "menu.cpp"
 #include "time.cpp"
 #include "welcome.cpp"

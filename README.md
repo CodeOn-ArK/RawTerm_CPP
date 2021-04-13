@@ -1,4 +1,3 @@
-# This Project is still W.I.P.
 # RawTerm
 This is a Serial Terminal Emulator and is currently not portable to any other Operating System other than Linux. This
 C++ project was written as a final group project at the end of our Fouth Semester(2nd Year).
@@ -11,6 +10,9 @@ The main C++ / OOP features that were aimed to be covered in this project are li
 - [x] STL
 - [ ] Exception Handling
 - [ ] Templates
+## Note:
+
+    This is still under development, but the Tx works fine in the stable release v1.0
 
 ## Collaboration
 This project was made in collaboration with [ @CodeOn-ArK ](https://github.com/CodeOn-ArK),
@@ -20,3 +22,4 @@ This project was made in collaboration with [ @CodeOn-ArK ](https://github.com/C
 [ @Programish (Pushpendra Kumar) ](https://github.com/Programish) and
 
 [ @Saptarshi434 (Saptarshi Mondal) ](https://github.com/Saptarshi434).
+

@@ -1,7 +1,4 @@
-#include <menu.h>
-#include <ncurses.h>
-#include <stdlib.h>
-#include <string.h>
+#include "RawTerm.hpp"
 
 void SwitchSub_menu(const char* m, int yy);
 static int flag = 0;
@@ -369,9 +366,6 @@ void select(WINDOW* w, MENU* main_menu, int row, ITEM** it, int sel_idx,
         clrtoeol();
         mvprintw(20, 0, "Item selected is : %s", item_name(current_item(m)));
         refresh();
-        /*
-         *TODOO
-         */
         if (!strcmp(item_name(current_item(m)), "EXIT Console")) {
           exit(EXIT_SUCCESS);
         }

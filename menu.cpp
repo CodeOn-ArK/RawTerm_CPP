@@ -139,36 +139,9 @@ class ip_file : public device {
  public:
   void file_input();
   void display_menu();
-  // void wrote(string);
 };
 /******************-FUNCTIONS-*********************/
-// void wrote(string str) { write(str); }
-void ip_file::file_input() {
-  trans_rec_win();
-  /*
-  if (timeObj.get_enable_status()) {
-    print_time();
-    cout << "\t";
-  } else
-    cout << "\t\t";
-
-  cin.getline(str, 30, '\n');
-
-  EXIT on EOF (aka ^D)
-  if (cin.eof()) {
-    cout << endl;
-    exit(EXIT_SUCCESS);
-  }
-
-  if (strcmp(str, "__MENU")) {
-    write(str);
-    if (logObj.get_log_status()) {
-      logObj.generate_log(str);
-    }
-  } else
-    menu_call();
-  */
-}
+void ip_file::file_input() { trans_rec_win(); }
 void ip_file::display_menu() { cout << "device called display_menu"; }
 /*********************-END-************************/
 
