@@ -19,14 +19,14 @@ void wlkm() {
   attroff(COLOR_PAIR(1));
   attron(COLOR_PAIR(2));
   mvprintw(27, 10, "1.Colour Scheme -> It changes colour of menu.");
-  mvprintw(29, 10, "2.Device        -> ");
-  mvprintw(31, 10, "3.Time Stamp    -> ");
-  mvprintw(33, 10, "4.Generate Log  -> ");
-  mvprintw(35, 10, "5.Clear Screen  ->");
-  mvprintw(37, 10, "6.Baud Rate     -> ");
-  mvprintw(39, 10, "7.Send Newline  -> ");
-  mvprintw(41, 10, "8.EXIT Console  -> ");
-  mvprintw(43, 10, "9.EXIT Menu     -> ");
+  mvprintw(29, 10, "2.Device        -> Changes USB device to send characters");
+  mvprintw(31, 10, "3.Time Stamp    -> Generates time stamp");
+  mvprintw(33, 10, "4.Generate Log  -> Generates log");
+  mvprintw(35, 10, "5.Clear Screen  -> Clears the Rx Tx window ");
+  mvprintw(37, 10, "6.Baud Rate     -> Select a specified baud rate");
+  mvprintw(39, 10, "7.Send Newline  -> Send a newline to the device");
+  mvprintw(41, 10, "8.EXIT Console  -> Exit Program");
+  mvprintw(43, 10, "9.EXIT Menu     -> Exit Menu");
   attroff(COLOR_PAIR(2));
   attroff(A_BOLD);
 
