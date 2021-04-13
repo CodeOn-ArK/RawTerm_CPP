@@ -76,10 +76,7 @@ void device::switch_dev(int i) {
   }
 }
 void device::display_menu() { cout << "device called display_menu"; }
-void device::write(string str) {
-  mvprintw(30, 30, "hello");
-  outy << str.c_str() << endl;
-}
+void device::write(string str) { outy << str.c_str() << endl; }
 int device::get_curr_dev() { return device_idx; }
 /*********************-END-************************/
 
