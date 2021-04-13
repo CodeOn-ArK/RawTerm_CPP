@@ -44,7 +44,7 @@ class device : public menu {
  public:
   device();
   ofstream outy;
-  void write(char *str);
+  void write(string);
   void display_menu();
   void switch_dev(int i);
   int get_curr_dev();
@@ -76,7 +76,10 @@ void device::switch_dev(int i) {
   }
 }
 void device::display_menu() { cout << "device called display_menu"; }
-void device::write(char *str) { outy << str << endl; }
+void device::write(string str) {
+  mvprintw(30, 30, "hello");
+  outy << str.c_str() << endl;
+}
 int device::get_curr_dev() { return device_idx; }
 /*********************-END-************************/
 
@@ -139,8 +142,10 @@ class ip_file : public device {
  public:
   void file_input();
   void display_menu();
+  // void wrote(string);
 };
 /******************-FUNCTIONS-*********************/
+// void wrote(string str) { write(str); }
 void ip_file::file_input() {
   trans_rec_win();
   /*

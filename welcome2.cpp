@@ -6,6 +6,7 @@
 extern time_printing timeObj;
 extern log_class logObj;
 extern int flag;
+extern class_mem memory;
 
 const int TEXT_WIDTH = 78;
 
@@ -146,6 +147,7 @@ void input_display() {
   lines_buffer.clear();
   while (ch = wgetch(win)) {
     if (ch == '\n') {
+      memory.devObj.write(line.c_str());
       if (flag) i = 3;
       if (line.size() < TEXT_WIDTH) {
         string final_line;
