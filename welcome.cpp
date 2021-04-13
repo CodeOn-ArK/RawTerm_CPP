@@ -2,6 +2,14 @@
 void wlkm() {
   initscr();
   start_color();
+  mvprintw(30, 80, "      ______");
+  mvprintw(31, 80, "  ___/_  __/");
+  mvprintw(32, 80, " / __// /");
+  mvprintw(34, 80, "/_/  /_/");
+  mvprintw(30, 70, "   ___             ______");
+  mvprintw(31, 70, "  / _ \___ __    _/_  __/__ ______ _  ");
+  mvprintw(31, 70, " / , _/ _ `/ |/|/ // / / -_) __/  ' \ ");
+  mvprintw(31, 70, "/_/|_|\_,_/|__,__//_/  \__/_/ /_/_/_/");
   init_pair(1, COLOR_GREEN, COLOR_BLACK);
   init_pair(2, COLOR_YELLOW, COLOR_BLACK);
   init_pair(3, COLOR_RED, COLOR_BLACK);
