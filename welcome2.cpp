@@ -120,12 +120,17 @@ void displayer() {
   clear_lines();
   mvwprintw(win, 46, 5, "Enter here -->");
   wattroff(win, A_BOLD);
+  if (flag) {
+    lines_buffer.clear();
+    //    flag = 0;
+  }
 
-  if (!flag)
-    for (size_t i = 0; i < lines_buffer.size(); i++) {
-      // (i + 1) to account for the RX and TX headers
-      mvwprintw(win, i + 1, 0, lines_buffer[i].c_str());
-    }
+  // if (!flag) {
+  for (size_t i = 0; i < lines_buffer.size(); i++) {
+    // (i + 1) to account for the RX and TX headers
+    mvwprintw(win, i + 1, 0, lines_buffer[i].c_str());
+  }
+  // }
 
   refresh();
   wrefresh(win);
@@ -148,7 +153,7 @@ void input_display() {
   while (ch = wgetch(win)) {
     if (ch == '\n') {
       memory.devObj.write(line.c_str());
-      if (flag) i = 3;
+      if (flag) i = 1;
       if (line.size() < TEXT_WIDTH) {
         string final_line;
 
