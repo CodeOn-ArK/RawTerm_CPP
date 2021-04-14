@@ -123,15 +123,12 @@ void displayer() {
   wattroff(win, A_BOLD);
   if (flag) {
     lines_buffer.clear();
-    //    flag = 0;
   }
 
-  // if (!flag) {
   for (size_t i = 0; i < lines_buffer.size(); i++) {
     // (i + 1) to account for the RX and TX headers
     mvwprintw(win, i + 1, 0, lines_buffer[i].c_str());
   }
-  // }
 
   refresh();
   wrefresh(win);
