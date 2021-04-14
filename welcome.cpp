@@ -1,3 +1,6 @@
+#include <unistd.h>
+
+const useconds_t DELAY_TIME = 500000;
 
 void wlkm() {
   initscr();
@@ -15,8 +18,7 @@ void wlkm() {
   mvprintw(12, 85, " / __// /");
   mvprintw(13, 85, "/_/  /_/");
   refresh();
-  for (uint32_t i = 0; i < 0xfffffff; i++)
-    ;
+  usleep(DELAY_TIME);
   for (int i = 10; i <= 13; i++) {
     move(i, 0);
     clrtoeol();
@@ -31,8 +33,7 @@ void wlkm() {
   attron(COLOR_PAIR(4));
   mvprintw(13, 75, "/_/|_|\\_,_/|__,__//_/  \\__/_/ /_/_/_/");
   refresh();
-  for (uint32_t i = 0; i < 0xffffffff / 20; i++)
-    ;
+  usleep(DELAY_TIME);
   for (int i = 10; i <= 13; i++) {
     move(i, 0);
     clrtoeol();
