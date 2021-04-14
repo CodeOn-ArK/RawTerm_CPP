@@ -18,7 +18,7 @@ void wlkm() {
   mvprintw(12, 85, " / __// /");
   mvprintw(13, 85, "/_/  /_/");
   refresh();
-  // usleep(DELAY_TIME / 1.5);
+  usleep(DELAY_TIME / 1.5);
   for (int i = 10; i <= 13; i++) {
     move(i, 0);
     clrtoeol();
@@ -33,7 +33,7 @@ void wlkm() {
   attron(COLOR_PAIR(4));
   mvprintw(13, 75, "/_/|_|\\_,_/|__,__//_/  \\__/_/ /_/_/_/");
   refresh();
-  //  usleep(DELAY_TIME);
+  usleep(DELAY_TIME);
   for (int i = 10; i <= 13; i++) {
     move(i, 0);
     clrtoeol();
