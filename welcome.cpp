@@ -18,7 +18,7 @@ void wlkm() {
   mvprintw(12, 85, " / __// /");
   mvprintw(13, 85, "/_/  /_/");
   refresh();
-  usleep(DELAY_TIME / 10);
+  usleep(DELAY_TIME / 1.5);
   for (int i = 10; i <= 13; i++) {
     move(i, 0);
     clrtoeol();
