@@ -1,6 +1,6 @@
 #include <unistd.h>
 
-const useconds_t DELAY_TIME = 500000;
+const useconds_t DELAY_TIME = 5000000;
 
 void wlkm() {
   initscr();
