@@ -118,6 +118,7 @@ void displayer() {
   wmove(win, 46, 0);
   wclrtoeol(win);
   clear_lines();
+  curs_set(1);
   mvwprintw(win, 46, 5, "Enter here -->");
   wattroff(win, A_BOLD);
   if (flag) {
