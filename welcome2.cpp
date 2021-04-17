@@ -30,12 +30,12 @@ class conversion {
 };
 
 /******************-FUNCTIONS-*********************/
-conversion::conversion() {
+conversion::conversion() {  // Default constructor
   str = new char;
   len = 0;
 }
 
-conversion::conversion(const string& s) {
+conversion::conversion(const string& s) {  // copy constructor
   len = s.size();
   div_len = len / TEXT_WIDTH;
   str = new char[len + 1];
@@ -51,7 +51,7 @@ conversion::conversion(const string& s) {
   call_partition();
 }
 
-void conversion::call_partition() {
+void conversion::call_partition() {  // actual partition happens here
   for (int i = 0; i < div_len + 1; i++) {
     partition[i] = head[i];
     for (int j = 0; j < TEXT_WIDTH; j++) {
@@ -63,7 +63,8 @@ void conversion::call_partition() {
   }
 }
 
-void conversion::display(int start_col) {
+void conversion::display(
+    int start_col) {  // displays the string in partitioned format
   string final_line = "";
 
   if (timeObj.get_enable_status()) {
@@ -89,7 +90,7 @@ void conversion::display(int start_col) {
   wrefresh(win);
 }
 
-void init_displayer() {
+void init_displayer() {  // initializes the ncurses window variables
   initscr();
   start_color();
   cbreak();
@@ -99,13 +100,13 @@ void init_displayer() {
   init_pair(1, COLOR_YELLOW, COLOR_BLACK);
 }
 
-void trans_rec_win() {
+void trans_rec_win() {  // 1st function called in this file
   init_displayer();
   displayer();
   input_display();
 }
 
-void displayer() {
+void displayer() {  // draws the display window
   mvwvline(win, 1, 95, '|', 44);
   wattron(win, COLOR_PAIR(1));
   wattron(win, A_BOLD);
@@ -143,7 +144,8 @@ void displayer(int y, int x, const string& lin) {
   wmove(win, y, x);
 }
 
-void input_display() {
+void input_display() {  // program stays here for most of the time, waiting for
+                        // user input
   string line, time;
   int i = 1, col = 0;
   int ch;
@@ -207,7 +209,7 @@ void input_display() {
   endwin();
 }
 
-void clear_lines(void) {
+void clear_lines(void) {  // clears unnecessary line
   wmove(win, 46, 20);
   wclrtoeol(win);
   wmove(win, 47, 0);
@@ -220,7 +222,9 @@ void clear_lines(void) {
   wclrtoeol(win);
 }
 
-int truncater(const string& line, int start_row) {
+int truncater(const string& line,
+              int start_row) {  // makes a class object and passes the string
+                                // over there, to be partitioned
   int inc;
 
   conversion classy(line);
